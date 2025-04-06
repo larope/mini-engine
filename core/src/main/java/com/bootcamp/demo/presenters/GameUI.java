@@ -16,6 +16,8 @@ import com.bootcamp.demo.events.core.EventListener;
 import com.bootcamp.demo.events.core.EventModule;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.pages.core.APage;
+import com.bootcamp.demo.util.serviceLocator.ServiceLocator;
+import com.bootcamp.demo.util.services.ImageFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +32,7 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
 
     @Getter @Setter
     private boolean buttonPressed;
+
 
     public GameUI (Viewport viewport) {
         API.Instance().register(GameUI.class, this);
@@ -51,26 +54,35 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
     private void playground () {
         final Table playground = new Table();
 
-
-        GridLayout grid = new GridLayout(3, 3);
+        GridLayout grid = new GridLayout(2, 5);
         grid.background(Resources.getDrawable("basics/white-squircle-35", Color.WHITE));
         grid.defaults().size(300);
-        grid.defaults().pad(20);
+        grid.defaults().space(20);
+        grid.pad(20);
 
-        grid.setDefaultCell(() -> {
-            final Image image = new Image();
-            image.setDrawable(Resources.getDrawable("ui/ui-chat-gift-button-icon", Color.LIGHT_GRAY));
-            return image;
-        });
+        grid.setDefaultCell(() -> ServiceLocator
+            .get(ImageFactory.class)
+            .createImage(ImageFactory.CommonImages.SQUIRCLE35, Color.LIGHT_GRAY)
+        );
 
-        final Image testImage = new Image();
-        testImage.setDrawable(Resources.getDrawable("basics/white-squircle-35", Color.LIGHT_GRAY));
-        grid.setCell(2,2, testImage);
+        grid.setCell(1,4, ServiceLocator
+            .get(ImageFactory.class)
+            .createImage(ImageFactory.CommonImages.GIFT)
+        );
+
+        grid.setCell(0,0, ServiceLocator
+            .get(ImageFactory.class)
+            .createImage(ImageFactory.CommonImages.GIFT)
+        );
+
+        grid.setCell(1,2, ServiceLocator
+            .get(ImageFactory.class)
+            .createImage(ImageFactory.CommonImages.GIFT)
+        );
 
         grid.bind();
 
         playground.add(grid);
-
 
         rootUI.add(playground);
     }
