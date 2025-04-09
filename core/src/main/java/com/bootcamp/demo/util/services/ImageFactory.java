@@ -14,13 +14,14 @@ public class ImageFactory implements Service, Disposable {
     public ImageFactory(){
         paths.put(CommonImages.SQUIRCLE35, "basics/white-squircle-35");
         paths.put(CommonImages.GIFT, "ui/ui-chat-gift-button-icon");
-
+        paths.put(CommonImages.SQUIRCLE35_BORDER, "basics/white-squircle-border-35");
         register();
     }
 
     public
     enum CommonImages{
         SQUIRCLE35,
+        SQUIRCLE35_BORDER,
         GIFT
     }
 
