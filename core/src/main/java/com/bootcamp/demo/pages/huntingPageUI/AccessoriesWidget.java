@@ -62,7 +62,7 @@ public class AccessoriesWidget extends Table {
 
     private Table getSetIndicator(){
         Table setIndicator = new Table()
-            .background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#A29890")));
+            .background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
         final BitmapFont font = fontManager.getLabelStyle(GameFont.BOLD_20).font;
         final Label setIndicatorText = new Label("Nepolniy nabor", new Label.LabelStyle(font, Color.valueOf("#524B40")));
         setIndicator.add(setIndicatorText);
