@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MilitaryGearSaveData implements Json.Serializable {
+public class TacticalSaveData implements Json.Serializable {
 
     @Getter @Setter
     private String name;

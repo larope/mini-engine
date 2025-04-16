@@ -9,13 +9,13 @@ public class GameData {
     private final XmlReader xmlReader = new XmlReader();
 
     @Getter
-    private final MilitaryGearsGameData militaryGearsGameData;
+    private final TacticalsGameData tacticalsGameData;
 
     public GameData () {
-        militaryGearsGameData = new MilitaryGearsGameData();
+        tacticalsGameData = new TacticalsGameData();
     }
 
     public void load () {
-        militaryGearsGameData.load(xmlReader.parse(Gdx.files.internal("data/military-gear.xml")));
+        tacticalsGameData.load(xmlReader.parse(Gdx.files.internal("data/tacticals.xml")));
     }
 }
