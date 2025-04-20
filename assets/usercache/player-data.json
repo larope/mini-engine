@@ -1,0 +1,19 @@
+{
+  "statsSaveData": {
+    "ATK:": 0,
+    "COMBO:": 0,
+    "CRIT:": 0,
+    "DODGE:": 0,
+    "HP:": 0,
+    "POISON:": 0,
+    "REGEN:": 0,
+    "STEAL:": 0,
+    "STUN:": 0
+  },
+  "tacticalsSaveData": {
+    "0": {
+      "l": 4,
+      "n": "present"
+    }
+  }
+}
