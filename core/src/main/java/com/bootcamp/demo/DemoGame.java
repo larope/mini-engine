@@ -6,12 +6,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.*;
 import com.bootcamp.demo.data.game.GameData;
-import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.TacticalSaveData;
-import com.bootcamp.demo.data.save.TacticalsSaveData;
+import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.events.GameStartedEvent;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.events.core.EventModule;
+
+import java.util.Random;
 
 public class DemoGame extends Game {
 
@@ -25,11 +25,13 @@ public class DemoGame extends Game {
 
         loadSaveData();
 
-        final TacticalSaveData tacticalsSaveData = new TacticalSaveData();
-        tacticalsSaveData.setName("present");
-        tacticalsSaveData.setLevel(3);
+        final TacticalSaveData tacticalSaveData = new TacticalSaveData();
+        tacticalSaveData.setName("present");
+        tacticalSaveData.setLevel(4);
+//        BLAH BLAH BLAH BLEH BLEH BLEH BLU BLU BLU
 
-        API.get(SaveData.class).getTacticalsSaveData().getTacticals().put(0, tacticalsSaveData);
+
+        API.get(SaveData.class).getTacticalsSaveData().getTacticals().put(0, tacticalSaveData);
         savePlayerData();
 
         setScreen(new GameScreen());
@@ -38,7 +40,10 @@ public class DemoGame extends Game {
 
     private void loadSaveData () {
         final FileHandle file = getPlayerDataFileHandler();
-        if (file.exists()) {
+        Gdx.app.log("INFO", Boolean.toString(file.exists()));
+
+        if (!file.exists()) {
+
             createNewSaveData();
             return;
         }
@@ -71,11 +76,10 @@ public class DemoGame extends Game {
     }
 
     private FileHandle getPlayerDataFileHandler () {
-        final FileHandle playerDataFile = Gdx.files.local("usercache").child("player-data");
+        final FileHandle playerDataFile = Gdx.files.local("usercache").child("player-data.json");
         // check if file exists; if not, create an empty file
-        if (!playerDataFile.exists()) {
-            playerDataFile.writeString("", false);
-        }
+
+
         return playerDataFile;
     }
 
