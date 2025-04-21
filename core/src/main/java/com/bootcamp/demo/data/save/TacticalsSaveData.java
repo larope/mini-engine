@@ -1,13 +1,24 @@
 package com.bootcamp.demo.data.save;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.bootcamp.demo.data.game.Tactical;
 import lombok.Getter;
 
 public class TacticalsSaveData implements Json.Serializable {
-    @Getter
+    // TODO abstract this shit to higher level to inherit cause gears do the same
+    private final int tacticalsCount = 4;
     private final IntMap<TacticalSaveData> tacticals = new IntMap<>();
+
+
+    public IntMap<TacticalSaveData> getTacticals() {
+        if (!isFilled()) {
+            setDefaults();
+        }
+        return tacticals;
+    }
 
     @Override
     public void write (Json json) {
@@ -22,8 +33,23 @@ public class TacticalsSaveData implements Json.Serializable {
 
         for (JsonValue value : jsonValue) {
             final Integer slotIndex = Integer.valueOf(value.name);
-            final TacticalSaveData tacticalSaveData = json.readValue(TacticalSaveData.class, value);
-            tacticals.put(slotIndex, tacticalSaveData);
+            final TacticalSaveData data = json.readValue(TacticalSaveData.class, value);
+            tacticals.put(slotIndex, data);
+        }
+    }
+
+    public boolean isFilled(){
+        return tacticals.size == tacticalsCount;
+    }
+
+    public void setDefaults(){
+        for (int i = 0; i < tacticalsCount; i++) {
+            if(tacticals.containsKey(i)) continue;
+            TacticalSaveData defaultTactical = new TacticalSaveData();
+            defaultTactical.setLevel(0);
+            defaultTactical.setName(Tactical.EMPTY);
+
+            tacticals.put(i, defaultTactical);
         }
     }
 }

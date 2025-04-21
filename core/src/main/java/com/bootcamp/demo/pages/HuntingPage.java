@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.Stat;
-import com.bootcamp.demo.data.save.StatsSaveData;
+import com.badlogic.gdx.utils.IntMap;
+import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.engine.FontManager;
+import com.bootcamp.demo.engine.Resources;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
@@ -76,12 +76,11 @@ public class HuntingPage extends APage {
         }
 
         private Table constructMenuButtonSegment() {
-            final BorderedTable menuButton = new BorderedTable(
+
+            return new BorderedTable(
                 Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#F1E6DC")),
                 Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#847467"))
             );
-
-            return menuButton;
         }
         private Table constructStatsSegment(){
             final WidgetsContainer<Table> statsContainer = new WidgetsContainer<>(3);
@@ -149,16 +148,22 @@ public class HuntingPage extends APage {
         private Table constructSecondaryEquipmentSegment(){
             WidgetsContainer<Table> secondaryGear = new WidgetsContainer<>(2);
             secondaryGear.background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
-            secondaryGear.defaults().space(10).grow();
+            secondaryGear.defaults().space(10).grow().uniform();
 
-            for(int i = 0; i < 4; i++){
+            IntMap<TacticalSaveData> tacticals = API.get(SaveData.class).getTacticalsSaveData().getTacticals();
+
+            for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
                 BorderedTable item = new BorderedTable(
                     Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
                     Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
                 );
-
+                Table tacticalIcon = new Table();
+                tacticalIcon.setBackground(tactical.value.getName().getDrawable());
+                item.add(tacticalIcon).growY();
+                item.pad(10);
                 secondaryGear.add(item);
             }
+
 
             BorderedTable flag = new BorderedTable(
                 Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")),
@@ -194,12 +199,15 @@ public class HuntingPage extends APage {
             accessories.defaults().size(defaultRectSize)
                 .space(20);
 
-            for(int i = 0; i < 6; i++){
-
+            GearsSaveData gearsSaveData = API.get(SaveData.class).getGearsSaveData();
+            for (IntMap.Entry<GearSaveData> gear : gearsSaveData.getGears()) {
                 BorderedTable item = new BorderedTable(
                     Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
                     Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
                 );
+                Table icon = new Table();
+                icon.background(gear.value.getName().getDrawable());
+                item.add(icon).grow();
                 accessories.add(item);
             }
 

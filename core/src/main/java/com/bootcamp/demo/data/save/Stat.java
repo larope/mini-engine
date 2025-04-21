@@ -14,7 +14,6 @@ public enum Stat {
     REGENERATION("REGEN:"),
     STEAL("STEAL:"),
     POISON("POISON:"),
-    NOTFOUND("err..."),
     ;
 
     @Getter
@@ -27,9 +26,8 @@ public enum Stat {
     public static Stat getStatByTitle(String value) {
         for (Stat stat : Stat.values()) {
             if(value.equals(stat.title)) return stat;
-
         }
-        return NOTFOUND;
+        throw new IllegalArgumentException("Unknown stat title: " + value);
     }
 
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.*;
 import com.bootcamp.demo.data.game.GameData;
+import com.bootcamp.demo.data.game.Tactical;
 import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.events.GameStartedEvent;
 import com.bootcamp.demo.managers.API;
@@ -25,14 +26,6 @@ public class DemoGame extends Game {
 
         loadSaveData();
 
-        final TacticalSaveData tacticalSaveData = new TacticalSaveData();
-        tacticalSaveData.setName("present");
-        tacticalSaveData.setLevel(4);
-//        BLAH BLAH BLAH BLEH BLEH BLEH BLU BLU BLU
-
-
-        API.get(SaveData.class).getTacticalsSaveData().getTacticals().put(0, tacticalSaveData);
-        savePlayerData();
 
         setScreen(new GameScreen());
         API.get(EventModule.class).fireEvent(GameStartedEvent.class);
@@ -40,10 +33,8 @@ public class DemoGame extends Game {
 
     private void loadSaveData () {
         final FileHandle file = getPlayerDataFileHandler();
-        Gdx.app.log("INFO", Boolean.toString(file.exists()));
 
         if (!file.exists()) {
-
             createNewSaveData();
             return;
         }
@@ -86,6 +77,8 @@ public class DemoGame extends Game {
     @Override
     public void dispose () {
         super.dispose();
+        savePlayerData();
+
         API.Instance().dispose();
         Gdx.app.exit();
     }

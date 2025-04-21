@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.bootcamp.demo.data.game.GameData;
+import com.bootcamp.demo.data.game.Tactical;
 import com.bootcamp.demo.data.game.TacticalGameData;
 import com.bootcamp.demo.data.game.TacticalsGameData;
 import com.bootcamp.demo.data.save.SaveData;
@@ -69,7 +70,7 @@ public class TestPage extends APage {
             }
 
             final TacticalsGameData tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
-            final ObjectMap<String, TacticalGameData> tacticals = tacticalsGameData.getTacticals();
+            final ObjectMap<Tactical, TacticalGameData> tacticals = tacticalsGameData.getTacticals();
             final TacticalGameData tacticalGameData = tacticals.get(tacticalSaveData.getName());
             iconImage.setDrawable(tacticalGameData.getIcon());
         }
