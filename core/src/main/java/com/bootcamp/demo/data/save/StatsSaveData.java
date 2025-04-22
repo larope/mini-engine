@@ -3,13 +3,15 @@ package com.bootcamp.demo.data.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class StatsSaveData implements Json.Serializable {
-    private final Map<Stat, Float> stats = new HashMap<Stat, Float>();
+    private final ObjectMap<Stat, Float> stats = new ObjectMap<Stat, Float>();
 
-    public Map<Stat, Float> getStats() {
+    public ObjectMap<Stat, Float> getStats() {
         if(!isFilled()){
             setDefaults();
         }
@@ -18,8 +20,8 @@ public class StatsSaveData implements Json.Serializable {
 
     @Override
     public void write (Json json) {
-        for (Map.Entry<Stat, Float> entry : stats.entrySet()) {
-            json.writeValue(entry.getKey().getTitle(), entry.getValue());
+        for (ObjectMap.Entry<Stat, Float> entry : stats.entries()) {
+            json.writeValue(entry.key.getTitle(), entry.value);
         }
     }
 
@@ -37,7 +39,7 @@ public class StatsSaveData implements Json.Serializable {
     }
 
     public boolean isFilled(){
-        return stats.size() == Stat.values().length;
+        return stats.size == Stat.values().length;
     }
 
     public void setDefaults(){

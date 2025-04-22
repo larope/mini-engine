@@ -1,14 +1,16 @@
 package com.bootcamp.demo.pages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.engine.FontManager;
-import com.bootcamp.demo.engine.Resources;
+import com.bootcamp.demo.engine.Labels;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
@@ -16,105 +18,136 @@ import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.pages.core.APage;
+import com.bootcamp.demo.util.NumberFormatter;
 import com.bootcamp.demo.util.serviceLocator.ServiceLocator;
 
-import java.util.Map;
+import javax.lang.model.util.SimpleAnnotationValueVisitor6;
 
 public class HuntingPage extends APage {
     static final int defaultRectSize = 225;
 
+    StatsWidget statsWidget;
+    AccessoriesWidget accessoriesWidget;
+    ButtonWidget buttonWidget;
+    PowerWidget powerWidget;
+
+    SaveData data;
+
+    public void setData(SaveData saveData) {
+        data = saveData;
+
+        powerWidget = new PowerWidget();
+        accessoriesWidget = new AccessoriesWidget();
+        buttonWidget = new ButtonWidget();
+        statsWidget = new StatsWidget();
+
+        powerWidget.setData(50);
+        statsWidget.setData(API.get(SaveData.class).getStatsSaveData().getStats());
+        accessoriesWidget.setData(saveData.getGearsSaveData().getGears());
+    }
+
     @Override
     protected void constructContent(Table content) {
-        StatsWidget statsWidget = new StatsWidget();
-        AccessoriesWidget accessoriesWidget = new AccessoriesWidget();
-        ButtonWidget buttonWidget = new ButtonWidget();
+        setData(API.get(SaveData.class));
 
-        Table bottomUI = new Table()
-            .background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#fbeae0")))
-            .pad(30);
-
-        bottomUI.add(statsWidget.construct()).growX();
-        bottomUI.row();
-        bottomUI.add(accessoriesWidget.construct()).growX().space(30);
-        bottomUI.row();
-        bottomUI.add(buttonWidget.construct()).growX();
-
-
-        Table topUI = new Table();
+        final Table topUI = new Table();
 
         content.add(topUI).grow();
         content.row();
-        content.add(constructPowerIndicatorSegment()).expandX().height(100).width(500);
+        content.add(powerWidget.construct()).expandX().height(100).width(600);
         content.row();
-        content.add(bottomUI).growX();
+        content.add(constructMainUi()).growX();
     }
 
-    private Table constructPowerIndicatorSegment(){
-        Table innerSegment = new Table()
-            .background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#AE9E91")));
-
-        Table segment = new Table()
+    private Table constructMainUi(){
+        final Table mainUi = new Table()
             .background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#fbeae0")))
-            .pad(10).padBottom(0);
+            .pad(30);
 
-        segment.add(innerSegment).grow();
-        return segment;
+        mainUi.add(statsWidget.construct()).growX();
+        mainUi.row();
+        mainUi.add(accessoriesWidget.construct()).growX().space(30);
+        mainUi.row();
+        mainUi.add(buttonWidget.construct()).growX();
+
+        return mainUi;
     }
 
-    private static class StatsWidget extends Table {
-        private FontManager fontManager;
+    private static class PowerWidget extends BorderedTable {
+        private int power = -42;
 
-        public Table construct() {
-            fontManager = ServiceLocator.get(FontManager.class);
+        public Table construct(){
+            if(!powerAvailable()){
+                throw new RuntimeException("Power not available");
+            }
 
-            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#AE9E91")));
-            pad(20);
+            background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#AE9E91")));
+            setBorderDrawable(Squircle.SQUIRCLE_35_BORDER_TOP.getDrawable(Color.valueOf("#fbeae0")));
 
-            add(constructStatsSegment()).growX();
-            add(constructMenuButtonSegment()).size(100).space(20);
+            final Label powerLabel = Labels.make(GameFont.BOLD_32, Color.WHITE, String.valueOf(NumberFormatter.formatToShortForm(power)));
+            add(powerLabel);
             return this;
         }
 
-        private Table constructMenuButtonSegment() {
+        private boolean powerAvailable() {
+            return power != -42;
+        }
 
+        public void setData (int power){
+            this.power = power;
+        }
+    }
+    private static class StatsWidget extends Table {
+        private ObjectMap<Stat, Float> stats = new ObjectMap<>();
+
+        public void setData(ObjectMap<Stat, Float> stats){
+            this.stats = stats;
+        }
+
+        public Table construct () {
+            if(!statsAvailable()){
+                throw new RuntimeException("Stats not available");
+            }
+
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#AE9E91"))).pad(20);
+
+            add(constructStatsSegment()).growX();
+            add(constructMenuButton()).size(100).space(20);
+            return this;
+        }
+        private Table constructMenuButton() {
             return new BorderedTable(
                 Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#F1E6DC")),
                 Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#847467"))
             );
         }
-        private Table constructStatsSegment(){
+        private Table constructStatsSegment (){
             final WidgetsContainer<Table> statsContainer = new WidgetsContainer<>(3);
-            statsContainer.pad(0, 20, 0, 20);
+            statsContainer.pad(0, 20, 0, 20)
+                .defaults().growX().space(10, 40, 10, 40);
 
-            statsContainer.defaults().growX().space(10, 40, 10, 40);
-
-
-            StatsSaveData stats = API.get(SaveData.class).getStatsSaveData();
-
-            for (Map.Entry<Stat, Float> entry : stats.getStats().entrySet()) {
-                float value = entry.getValue();
-                Stat stat = entry.getKey();
-                statsContainer.add(createStat(stat.getTitle(), Float.toString(value)));
+            for (ObjectMap.Entry<Stat, Float> entry : stats.entries()) {
+                statsContainer.add(createStat(entry.key.getTitle(), entry.value.toString()));
             }
 
-            Table segment = new Table();
-            segment.add(statsContainer).growX();
-
-            return segment;
+            return statsContainer;
         }
         private Table createStat(String name, String value){
-            final BitmapFont font = fontManager.getLabelStyle(GameFont.BOLD_20).font;
+            final Label statName = Labels.make(GameFont.BOLD_20, Color.valueOf("#524B40"), name);
+            final Label statValue = Labels.make(GameFont.BOLD_20, Color.valueOf("#F9F5EE"), value);
 
-            final Label statName = new Label(name, new Label.LabelStyle(font, Color.valueOf("#524B40")));
-            final Label statValue = new Label(value, new Label.LabelStyle(font, Color.valueOf("#F9F5EE")));
             statValue.setAlignment(Align.right);
 
-            Table stat = new Table();
+            final Table statWrapper = new Table();
 
-            stat.add(statName).growX().left();
-            stat.add(statValue).growX().right();
+            statWrapper.add(statName).growX().left();
+            statWrapper.add(statValue).growX().right();
 
-            return stat;
+            return statWrapper;
+        }
+
+        private boolean statsAvailable(){
+            return stats.size == Stat.values().length;
         }
     }
     private static class ButtonWidget extends Table {
@@ -133,18 +166,22 @@ public class HuntingPage extends APage {
             add(autoHuntingButton);
             return this;
         }
+
+        public void setData (){}
     }
     private static class AccessoriesWidget extends Table {
-        private FontManager fontManager;
+        private static final int gearCount = 6;
+        private IntMap<GearSaveData> gears = new IntMap<>();
 
         public Table construct(){
-            fontManager = ServiceLocator.get(FontManager.class);
+            assert gearsAvailable() : "Invalid number of gears";
 
             add(constructEquipmentSegment()).expandX().left();
             add(constructSecondaryEquipmentSegment()).expandX();
 
             return this;
         }
+
         private Table constructSecondaryEquipmentSegment(){
             WidgetsContainer<Table> secondaryGear = new WidgetsContainer<>(2);
             secondaryGear.background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
@@ -186,30 +223,34 @@ public class HuntingPage extends APage {
         }
 
         private Table getSetIndicator(){
-            Table setIndicator = new Table()
+            final Table setIndicator = new Table()
                 .background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
-            final BitmapFont font = fontManager.getLabelStyle(GameFont.BOLD_20).font;
-            final Label setIndicatorText = new Label("Nepolniy nabor", new Label.LabelStyle(font, Color.valueOf("#524B40")));
+
+            final Label setIndicatorText = Labels.make(GameFont.BOLD_20, Color.valueOf("#524B40"), "Nepolniy Nabor");
             setIndicator.add(setIndicatorText);
 
             return setIndicator;
         }
         private Table constructEquipmentSegment(){
-            WidgetsContainer<Table> accessories = new WidgetsContainer<>(3);
-            accessories.defaults().size(defaultRectSize)
+            final WidgetsContainer<Table> gearContainer = new WidgetsContainer<>(3);
+            gearContainer.defaults().size(defaultRectSize)
                 .space(20);
 
-            GearsSaveData gearsSaveData = API.get(SaveData.class).getGearsSaveData();
-            for (IntMap.Entry<GearSaveData> gear : gearsSaveData.getGears()) {
-                BorderedTable item = new BorderedTable(
+
+            for (IntMap.Entry<GearSaveData> gear : gears) {
+                final BorderedTable item = new BorderedTable(
                     Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
                     Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
                 );
-                Table icon = new Table();
-                icon.background(gear.value.getName().getDrawable());
-                item.add(icon).grow();
-                accessories.add(item);
+
+                final Table icon = new Table();
+                icon.background(gear.value.getName().getDrawable())
+                    .add(icon).grow();
+
+                gearContainer.add(item);
             }
+
+            Gdx.app.log("DEBUG", "qaq");
 
             Table segment = new Table()
                 .background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7")))
@@ -217,9 +258,17 @@ public class HuntingPage extends APage {
 
             segment.add(getSetIndicator()).growX().height(50);
             segment.row();
-            segment.add(accessories).spaceTop(15);
+            segment.add(gearContainer).spaceTop(15);
 
             return segment;
+        }
+
+        private boolean gearsAvailable() {
+            return gears.size == gearCount;
+        }
+
+        public void setData(IntMap<GearSaveData> gears){
+            this.gears = gears;
         }
     }
 }
