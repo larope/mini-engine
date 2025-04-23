@@ -6,13 +6,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.*;
 import com.bootcamp.demo.data.game.GameData;
-import com.bootcamp.demo.data.game.Tactical;
 import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.events.GameStartedEvent;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.events.core.EventModule;
-
-import java.util.Random;
 
 public class DemoGame extends Game {
 

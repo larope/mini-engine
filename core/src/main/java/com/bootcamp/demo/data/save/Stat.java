@@ -2,8 +2,6 @@ package com.bootcamp.demo.data.save;
 
 import lombok.Getter;
 
-import java.util.Objects;
-
 public enum Stat {
     HP("HP:"),
     ATTACK("ATK:"),
@@ -29,5 +27,9 @@ public enum Stat {
         }
         throw new IllegalArgumentException("Unknown stat title: " + value);
     }
-
+    public enum StatType{
+        ADDITIVE,
+        MULTIPLICATIVE
+        ;
+    }
 }

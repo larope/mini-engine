@@ -1,15 +1,16 @@
 package com.bootcamp.demo.pages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.bootcamp.demo.data.game.GameData;
+import com.bootcamp.demo.data.game.GearType;
+import com.bootcamp.demo.data.game.GearsGameData;
+import com.bootcamp.demo.data.game.TacticalsGameData;
 import com.bootcamp.demo.data.save.*;
-import com.bootcamp.demo.engine.FontManager;
 import com.bootcamp.demo.engine.Labels;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.BorderedTable;
@@ -19,9 +20,6 @@ import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
-import com.bootcamp.demo.util.serviceLocator.ServiceLocator;
-
-import javax.lang.model.util.SimpleAnnotationValueVisitor6;
 
 public class HuntingPage extends APage {
     static final int defaultRectSize = 225;
@@ -37,13 +35,17 @@ public class HuntingPage extends APage {
         data = saveData;
 
         powerWidget = new PowerWidget();
-        accessoriesWidget = new AccessoriesWidget();
-        buttonWidget = new ButtonWidget();
-        statsWidget = new StatsWidget();
-
         powerWidget.setData(50);
-        statsWidget.setData(API.get(SaveData.class).getStatsSaveData().getStats());
-        accessoriesWidget.setData(saveData.getGearsSaveData().getGears());
+
+        accessoriesWidget = new AccessoriesWidget();
+        accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), saveData.getTacticalsSaveData().getTacticals());
+
+        buttonWidget = new ButtonWidget();
+        buttonWidget.setData();
+
+        statsWidget = new StatsWidget();
+//        statsWidget.setData(data.getStatsSaveData().getStats());
+
     }
 
     @Override
@@ -56,30 +58,30 @@ public class HuntingPage extends APage {
         content.row();
         content.add(powerWidget.construct()).expandX().height(100).width(600);
         content.row();
-        content.add(constructMainUi()).growX();
+        content.add(constructMainUI()).growX();
     }
 
-    private Table constructMainUi(){
-        final Table mainUi = new Table()
+    private Table constructMainUI(){
+        final Table mainUI = new Table()
             .background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#fbeae0")))
             .pad(30);
 
-        mainUi.add(statsWidget.construct()).growX();
-        mainUi.row();
-        mainUi.add(accessoriesWidget.construct()).growX().space(30);
-        mainUi.row();
-        mainUi.add(buttonWidget.construct()).growX();
+        mainUI.defaults().growX();
 
-        return mainUi;
+        mainUI.add(statsWidget.construct());
+        mainUI.row();
+        mainUI.add(accessoriesWidget.construct()).space(30);
+        mainUI.row();
+        mainUI.add(buttonWidget.construct());
+
+        return mainUI;
     }
 
     private static class PowerWidget extends BorderedTable {
         private int power = -42;
 
         public Table construct(){
-            if(!powerAvailable()){
-                throw new RuntimeException("Power not available");
-            }
+            assert powerAvailable() : "Power not available: " + power;
 
             background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#AE9E91")));
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER_TOP.getDrawable(Color.valueOf("#fbeae0")));
@@ -90,7 +92,7 @@ public class HuntingPage extends APage {
         }
 
         private boolean powerAvailable() {
-            return power != -42;
+            return power >= 0;
         }
 
         public void setData (int power){
@@ -100,14 +102,8 @@ public class HuntingPage extends APage {
     private static class StatsWidget extends Table {
         private ObjectMap<Stat, Float> stats = new ObjectMap<>();
 
-        public void setData(ObjectMap<Stat, Float> stats){
-            this.stats = stats;
-        }
-
         public Table construct () {
-            if(!statsAvailable()){
-                throw new RuntimeException("Stats not available");
-            }
+            assert statsAvailable() : "Stat not available: expected " + Stat.values().length + ", but got " + stats.size;
 
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#AE9E91"))).pad(20);
 
@@ -115,6 +111,10 @@ public class HuntingPage extends APage {
             add(constructMenuButton()).size(100).space(20);
             return this;
         }
+        public void setData(ObjectMap<Stat, Float> stats){
+            this.stats = stats;
+        }
+
         private Table constructMenuButton() {
             return new BorderedTable(
                 Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#F1E6DC")),
@@ -166,109 +166,178 @@ public class HuntingPage extends APage {
             add(autoHuntingButton);
             return this;
         }
-
         public void setData (){}
     }
     private static class AccessoriesWidget extends Table {
+        private GearWidget gearWidget;
+        private SecondaryGearWidget tacticalsWidget;
+
+
+        public void setData(ObjectMap<GearType, GearSaveData> gears, IntMap<TacticalSaveData> tacticals){
+            gearWidget = new GearWidget();
+            gearWidget.setData(gears);
+
+            tacticalsWidget = new SecondaryGearWidget();
+            tacticalsWidget.setData(tacticals);
+        }
+        public Table construct(){
+            add(gearWidget.construct()).expandX().left();
+            add(tacticalsWidget.construct()).expandX();
+
+            return this;
+        }
+    }
+
+    private static class GearWidget extends Table{
         private static final int gearCount = 6;
-        private IntMap<GearSaveData> gears = new IntMap<>();
+        private ObjectMap<GearType, GearSaveData> gears;
+        private SetIndicatorSegment indicator;
+
+        public void setData(ObjectMap<GearType, GearSaveData> gears){
+            this.gears = gears;
+
+            indicator = new SetIndicatorSegment();
+            indicator.setData();
+        }
 
         public Table construct(){
-            assert gearsAvailable() : "Invalid number of gears";
+            assert gearsAvailable() : "Invalid number of gears: expected " + gearCount + ", but got " + (gears == null ? "null" : gears.size);
 
-            add(constructEquipmentSegment()).expandX().left();
-            add(constructSecondaryEquipmentSegment()).expandX();
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7"))).pad(15,30,15,30);
+
+            add(indicator.construct()).growX().height(50);
+            row();
+            add(constructEquipmentSegment()).spaceTop(15);
 
             return this;
         }
 
-        private Table constructSecondaryEquipmentSegment(){
-            WidgetsContainer<Table> secondaryGear = new WidgetsContainer<>(2);
-            secondaryGear.background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
-            secondaryGear.defaults().space(10).grow().uniform();
-
-            IntMap<TacticalSaveData> tacticals = API.get(SaveData.class).getTacticalsSaveData().getTacticals();
-
-            for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
-                BorderedTable item = new BorderedTable(
-                    Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
-                    Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
-                );
-                Table tacticalIcon = new Table();
-                tacticalIcon.setBackground(tactical.value.getName().getDrawable());
-                item.add(tacticalIcon).growY();
-                item.pad(10);
-                secondaryGear.add(item);
-            }
-
-
-            BorderedTable flag = new BorderedTable(
-                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")),
-                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E"))
-            );
-            Table leftSegment = new Table();
-            leftSegment.defaults().space(25).size(defaultRectSize);
-            leftSegment.add(secondaryGear);
-            leftSegment.row();
-            leftSegment.add(flag);
-
-            BorderedTable petSegment = new BorderedTable(
-                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")),
-                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E"))
-            );
-            Table segment = new Table();
-            segment.add(leftSegment).spaceRight(25);
-            segment.add(petSegment).growY().width(defaultRectSize);
-            return segment;
-        }
-
-        private Table getSetIndicator(){
-            final Table setIndicator = new Table()
-                .background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
-
-            final Label setIndicatorText = Labels.make(GameFont.BOLD_20, Color.valueOf("#524B40"), "Nepolniy Nabor");
-            setIndicator.add(setIndicatorText);
-
-            return setIndicator;
-        }
         private Table constructEquipmentSegment(){
             final WidgetsContainer<Table> gearContainer = new WidgetsContainer<>(3);
             gearContainer.defaults().size(defaultRectSize)
                 .space(20);
-
-
-            for (IntMap.Entry<GearSaveData> gear : gears) {
-                final BorderedTable item = new BorderedTable(
-                    Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
-                    Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
-                );
-
-                final Table icon = new Table();
-                icon.background(gear.value.getName().getDrawable())
-                    .add(icon).grow();
-
+            for (ObjectMap.Entry<GearType, GearSaveData> gear : gears) {
+                final BorderedTable item = constructGearCell(gear.value);
                 gearContainer.add(item);
             }
 
-            Gdx.app.log("DEBUG", "qaq");
+            return gearContainer;
+        }
+        private static BorderedTable constructGearCell(GearSaveData gear) {
+            GearsGameData gearsGameData = API.get(GameData.class).getGearsGameData();
 
-            Table segment = new Table()
-                .background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7")))
-                .pad(15,30,15,30);
+            final Table icon = new Table();
+            icon.background(gearsGameData.getGears().get(gear.getSkin()).getDrawable());
 
-            segment.add(getSetIndicator()).growX().height(50);
-            segment.row();
-            segment.add(gearContainer).spaceTop(15);
+            final BorderedTable item = new BorderedTable(
+                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
+                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
+            );
 
+            item.pad(20).add(icon).grow();
+            return item;
+        }
+        private boolean gearsAvailable() {
+            return gears != null && gears.size == gearCount;
+        }
+    }
+    private static class SetIndicatorSegment extends Table{
+        public Table construct(){
+            background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
+
+            final Label setIndicatorText = Labels.make(GameFont.BOLD_20, Color.valueOf("#524B40"), "Nepolniy Nabor");
+            add(setIndicatorText);
+
+            return this;
+        }
+        public void setData(){}
+    }
+
+    private static class SecondaryGearWidget extends Table{
+        private TacticalsWidget tacticalsWidget;
+        private FlagWidget flagWidget;
+        private PetWidget petWidget;
+
+        public void setData(IntMap<TacticalSaveData> tacticals){
+            tacticalsWidget = new TacticalsWidget();
+            tacticalsWidget.setData(tacticals);
+
+            flagWidget = new FlagWidget();
+            flagWidget.setData();
+
+            petWidget = new PetWidget();
+            petWidget.setData();
+        }
+        public Table construct(){
+            final Table tacticalsFlagContainer = new Table();
+            tacticalsFlagContainer.defaults().space(25).size(defaultRectSize);
+            tacticalsFlagContainer.add(tacticalsWidget.construct());
+            tacticalsFlagContainer.row();
+            tacticalsFlagContainer.add(flagWidget.construct());
+
+            final Table segment = new Table();
+            segment.add(tacticalsFlagContainer).spaceRight(25);
+            segment.add(petWidget.construct()).growY().width(defaultRectSize);
             return segment;
         }
 
-        private boolean gearsAvailable() {
-            return gears.size == gearCount;
+    }
+    private static class FlagWidget extends BorderedTable{
+        public void setData(){}
+        public Table construct(){
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")));
+            setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E")));
+
+            return this;
+        }
+    }
+    private static class PetWidget extends BorderedTable{
+        public void setData(){}
+        public Table construct(){
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")));
+            setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E")));
+
+            return this;
+        }
+    }
+    private static class TacticalsWidget extends WidgetsContainer<Table>{
+        private static final int tacticalCount = 4;
+        private IntMap<TacticalSaveData> tacticals;
+
+        public void setData(IntMap<TacticalSaveData> tacticals){
+            this.tacticals = tacticals;
+        }
+        public Table construct(){
+            assert tacticalsAvailable() : "Invalid number of tacticals: expected " + tacticalCount + ", but got " + (tacticals == null ? "null" : tacticals.size);
+
+            setWidgetPerRow(2);
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
+            defaults().space(10).grow().uniform();
+
+            for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
+                Table item = constructTactical(tactical.value);
+                add(item);
+            }
+
+            return this;
         }
 
-        public void setData(IntMap<GearSaveData> gears){
-            this.gears = gears;
+        private Table constructTactical(TacticalSaveData tactical){
+            TacticalsGameData tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
+            final Table tacticalIcon = new Table();
+//            tacticalIcon.setBackground(tacticalsGameData.getTacticals().get(tactical.getSkin()).getDrawable());
+
+            final BorderedTable item = new BorderedTable(
+                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
+                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
+            );
+            item.add(tacticalIcon).growY();
+            item.pad(10);
+
+            return item;
+        }
+        private boolean tacticalsAvailable(){
+            return tacticals != null && tacticals.size==tacticalCount;
         }
     }
 }

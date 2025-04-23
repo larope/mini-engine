@@ -2,26 +2,29 @@ package com.bootcamp.demo.data.save;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.data.game.Tactical;
 import lombok.Getter;
 import lombok.Setter;
 
 public class TacticalSaveData implements Json.Serializable {
 
     @Getter @Setter
-    private Tactical name;
+    private String name;
     @Getter @Setter
     private int level;
+    @Getter @Setter
+    private String skin;
 
     @Override
     public void write (Json json) {
-        json.writeValue("name", name.getTitle());
-        json.writeValue("level", level);
+        json.writeValue("n", name);
+        json.writeValue("l", level);
+        json.writeValue("sk", skin);
     }
 
     @Override
     public void read (Json json, JsonValue jsonValue) {
-        name = Tactical.fromName(jsonValue.getString("name"));
-        level = jsonValue.getInt("level");
+        name = jsonValue.getString("n");
+        level = jsonValue.getInt("l");
+        skin = jsonValue.getString("sk");
     }
 }

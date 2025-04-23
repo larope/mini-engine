@@ -1,11 +1,8 @@
 package com.bootcamp.demo.data.save;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.data.game.Tactical;
-import lombok.Getter;
 
 public class TacticalsSaveData implements Json.Serializable {
     // TODO abstract this shit to higher level to inherit cause gears do the same
@@ -47,7 +44,7 @@ public class TacticalsSaveData implements Json.Serializable {
             if(tacticals.containsKey(i)) continue;
             TacticalSaveData defaultTactical = new TacticalSaveData();
             defaultTactical.setLevel(0);
-            defaultTactical.setName(Tactical.EMPTY);
+
 
             tacticals.put(i, defaultTactical);
         }

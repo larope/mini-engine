@@ -7,13 +7,17 @@ import lombok.Getter;
 
 public class TacticalGameData implements IGameData {
     @Getter
-    private Tactical tactical;
+    private String name;
     @Getter
-    private Drawable icon;
+    private String drawablePath;
 
     @Override
     public void load (XmlReader.Element rootXml) {
-        tactical = Tactical.fromName(rootXml.getAttribute("name"));
-        icon = Resources.getDrawable(rootXml.getAttribute("icon"));
+        name = rootXml.getAttribute("name");
+        drawablePath = rootXml.getAttribute("icon");
+    }
+
+    public Drawable getDrawable () {
+        return Resources.getDrawable(drawablePath);
     }
 }
