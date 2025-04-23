@@ -7,23 +7,23 @@ import lombok.Setter;
 
 public class StatEntry implements Json.Serializable {
     @Getter @Setter
-    Stat stat;
+    Stat type;
     @Getter @Setter
-    Stat.StatType type;
+    Stat.StatType statType;
     @Getter @Setter
     float value;
 
     @Override
     public void write(Json json) {
-        json.writeValue("s", stat.name());
-        json.writeValue("t", type.name());
+        json.writeValue("s", type.name());
+        json.writeValue("t", statType.name());
         json.writeValue("v", value);
     }
 
     @Override
     public void read(Json json, JsonValue jsonValue) {
-        stat = Stat.valueOf(jsonValue.getString("s"));
-        type = Stat.StatType.valueOf(jsonValue.getString("t"));
+        type = Stat.valueOf(jsonValue.getString("s"));
+        statType = Stat.StatType.valueOf(jsonValue.getString("t"));
         value = jsonValue.getFloat("v");
     }
 }

@@ -3,6 +3,7 @@ package com.bootcamp.demo.data.save;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.bootcamp.demo.util.NumberFormatter;
 
 import java.util.Random;
 
@@ -49,9 +50,9 @@ public class Stats implements Json.Serializable {
             }
             StatEntry value = new StatEntry();
 
-            value.setStat(stat);
+            value.setType(stat);
             value.setValue(0);
-            value.setType(Stat.StatType.ADDITIVE);
+            value.setStatType(Stat.StatType.ADDITIVE);
 
             values.put(stat, value);
         }
@@ -61,9 +62,15 @@ public class Stats implements Json.Serializable {
         for (Stat stat : Stat.values()){
             StatEntry value = new StatEntry();
             Random rand = new Random();
-            value.setStat(stat);
-            value.setValue(rand.nextInt(0, 1000));
-            value.setType(Stat.StatType.ADDITIVE);
+            value.setType(stat);
+            if(stat.getDefaultType() == Stat.StatType.ADDITIVE) {
+                value.setValue(rand.nextInt(0, 8000));
+            }
+            else if(stat.getDefaultType() == Stat.StatType.MULTIPLICATIVE) {
+                value.setValue(rand.nextFloat(0, 10));
+            }
+
+            value.setStatType(Stat.StatType.ADDITIVE);
 
             values.put(stat, value);
         }

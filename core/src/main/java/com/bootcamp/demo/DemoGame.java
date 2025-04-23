@@ -10,6 +10,7 @@ import com.bootcamp.demo.data.save.*;
 import com.bootcamp.demo.events.GameStartedEvent;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.events.core.EventModule;
+import com.bootcamp.demo.managers.StatManager;
 
 public class DemoGame extends Game {
 
@@ -19,6 +20,9 @@ public class DemoGame extends Game {
 
         final GameData gameData = new GameData();
         API.Instance().register(GameData.class, gameData);
+        final StatManager statManager = new StatManager();
+        API.Instance().register(StatManager.class, statManager);
+
         gameData.load();
 
         loadSaveData();

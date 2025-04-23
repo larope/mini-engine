@@ -18,6 +18,7 @@ import com.bootcamp.demo.engine.widgets.OffsetButton;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.managers.API;
+import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
 
@@ -30,12 +31,16 @@ public class HuntingPage extends APage {
     PowerWidget powerWidget;
 
     SaveData data;
+    StatManager statManager;
 
     public void setData(SaveData saveData) {
         data = saveData;
+        statManager = API.get(StatManager.class);
+        statManager.setData(data);
+
 
         powerWidget = new PowerWidget();
-        powerWidget.setData(50);
+        powerWidget.setData(statManager.getPower());
 
         accessoriesWidget = new AccessoriesWidget();
         accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), saveData.getTacticalsSaveData().getTacticals());
@@ -44,7 +49,7 @@ public class HuntingPage extends APage {
         buttonWidget.setData();
 
         statsWidget = new StatsWidget();
-//        statsWidget.setData(data.getStatsSaveData().getStats());
+        statsWidget.setData(statManager.getAllStatsCombined());
 
     }
 
@@ -100,11 +105,9 @@ public class HuntingPage extends APage {
         }
     }
     private static class StatsWidget extends Table {
-        private ObjectMap<Stat, Float> stats = new ObjectMap<>();
+        private ObjectMap<Stat, Float> stats;
 
         public Table construct () {
-            assert statsAvailable() : "Stat not available: expected " + Stat.values().length + ", but got " + stats.size;
-
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#AE9E91"))).pad(20);
 
             add(constructStatsSegment()).growX();
@@ -126,8 +129,16 @@ public class HuntingPage extends APage {
             statsContainer.pad(0, 20, 0, 20)
                 .defaults().growX().space(10, 40, 10, 40);
 
-            for (ObjectMap.Entry<Stat, Float> entry : stats.entries()) {
-                statsContainer.add(createStat(entry.key.getTitle(), entry.value.toString()));
+            for (Stat stat : Stat.values()) {
+                String statText = "";
+
+                if(stat.getDefaultType() == Stat.StatType.ADDITIVE) {
+                    statText = NumberFormatter.formatToShortForm((long)(float)stats.get(stat));
+                }
+                else if(stat.getDefaultType() == Stat.StatType.MULTIPLICATIVE) {
+                    statText = String.format("%.2f", stats.get(stat)) + "%";
+                }
+                statsContainer.add(createStat(stat.getTitle(), statText));
             }
 
             return statsContainer;
@@ -146,9 +157,6 @@ public class HuntingPage extends APage {
             return statWrapper;
         }
 
-        private boolean statsAvailable(){
-            return stats.size == Stat.values().length;
-        }
     }
     private static class ButtonWidget extends Table {
         public Table construct(){
