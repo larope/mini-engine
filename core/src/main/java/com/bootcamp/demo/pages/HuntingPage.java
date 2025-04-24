@@ -1,6 +1,9 @@
 package com.bootcamp.demo.pages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -11,10 +14,13 @@ import com.bootcamp.demo.data.game.GearType;
 import com.bootcamp.demo.data.game.GearsGameData;
 import com.bootcamp.demo.data.game.TacticalsGameData;
 import com.bootcamp.demo.data.save.*;
+import com.bootcamp.demo.dialogs.TestDialog;
+import com.bootcamp.demo.dialogs.core.DialogManager;
 import com.bootcamp.demo.engine.Labels;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
+import com.bootcamp.demo.engine.widgets.PressableTable;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.managers.API;
@@ -50,7 +56,6 @@ public class HuntingPage extends APage {
 
         statsWidget = new StatsWidget();
         statsWidget.setData(statManager.getAllStatsCombined());
-
     }
 
     @Override
@@ -87,7 +92,7 @@ public class HuntingPage extends APage {
 
         public Table construct(){
             assert powerAvailable() : "Power not available: " + power;
-
+            setTouchable(Touchable.disabled);
             background(Squircle.SQUIRCLE_35_TOP.getDrawable(Color.valueOf("#AE9E91")));
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER_TOP.getDrawable(Color.valueOf("#fbeae0")));
 
@@ -132,10 +137,10 @@ public class HuntingPage extends APage {
             for (Stat stat : Stat.values()) {
                 String statText = "";
 
-                if(stat.getDefaultType() == Stat.StatType.ADDITIVE) {
+                if(stat.getDefaultType() == Stat.Type.ADDITIVE) {
                     statText = NumberFormatter.formatToShortForm((long)(float)stats.get(stat));
                 }
-                else if(stat.getDefaultType() == Stat.StatType.MULTIPLICATIVE) {
+                else if(stat.getDefaultType() == Stat.Type.MULTIPLICATIVE) {
                     statText = String.format("%.2f", stats.get(stat)) + "%";
                 }
                 statsContainer.add(createStat(stat.getTitle(), statText));
@@ -308,9 +313,16 @@ public class HuntingPage extends APage {
             return this;
         }
     }
-    private static class TacticalsWidget extends WidgetsContainer<Table>{
+    private static class TacticalsWidget extends PressableTable {
+        TacticalsWidget(){
+            setOnClick(() -> {
+                API.get(DialogManager.class).show(TestDialog.class);
+            });
+        }
         private static final int tacticalCount = 4;
         private IntMap<TacticalSaveData> tacticals;
+
+        private WidgetsContainer<Table> tacticalsContainer;
 
         public void setData(IntMap<TacticalSaveData> tacticals){
             this.tacticals = tacticals;
@@ -318,30 +330,31 @@ public class HuntingPage extends APage {
         public Table construct(){
             assert tacticalsAvailable() : "Invalid number of tacticals: expected " + tacticalCount + ", but got " + (tacticals == null ? "null" : tacticals.size);
 
-            setWidgetPerRow(2);
-            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
-            defaults().space(10).grow().uniform();
+            tacticalsContainer = new WidgetsContainer<>(tacticalCount);
+            tacticalsContainer.setWidgetPerRow(2);
+            tacticalsContainer.background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
+            tacticalsContainer.defaults().space(10).grow().uniform();
 
             for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
                 Table item = constructTactical(tactical.value);
-                add(item);
+                tacticalsContainer.add(item);
             }
 
+            add(tacticalsContainer);
             return this;
         }
 
         private Table constructTactical(TacticalSaveData tactical){
             TacticalsGameData tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
             final Table tacticalIcon = new Table();
-//            tacticalIcon.setBackground(tacticalsGameData.getTacticals().get(tactical.getSkin()).getDrawable());
+            tacticalIcon.setBackground(tacticalsGameData.getTacticals().get(tactical.getName()).getDrawable());
 
             final BorderedTable item = new BorderedTable(
                 Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
                 Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
             );
             item.add(tacticalIcon).growY();
-            item.pad(10);
-
+            item.pad(10).setTouchable(Touchable.disabled);
             return item;
         }
         private boolean tacticalsAvailable(){

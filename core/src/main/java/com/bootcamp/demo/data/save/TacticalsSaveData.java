@@ -3,6 +3,9 @@ package com.bootcamp.demo.data.save;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.bootcamp.demo.data.game.GameData;
+import com.bootcamp.demo.data.game.TacticalGameData;
+import com.bootcamp.demo.managers.API;
 
 public class TacticalsSaveData implements Json.Serializable {
     // TODO abstract this shit to higher level to inherit cause gears do the same
@@ -44,8 +47,9 @@ public class TacticalsSaveData implements Json.Serializable {
             if(tacticals.containsKey(i)) continue;
             TacticalSaveData defaultTactical = new TacticalSaveData();
             defaultTactical.setLevel(0);
-
-
+            defaultTactical.setName("dynamite");
+            defaultTactical.setCount(0);
+            defaultTactical.getStats();
             tacticals.put(i, defaultTactical);
         }
     }

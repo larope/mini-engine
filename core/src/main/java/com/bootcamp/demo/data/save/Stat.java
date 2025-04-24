@@ -3,26 +3,28 @@ package com.bootcamp.demo.data.save;
 import lombok.Getter;
 
 public enum Stat {
-    HP("HP:", StatType.ADDITIVE),
-    ATTACK("ATK:", StatType.ADDITIVE),
-    DODGE("DODGE:", StatType.MULTIPLICATIVE),
-    COMBO("COMBO:", StatType.MULTIPLICATIVE),
-    CRITICAL("CRIT:", StatType.MULTIPLICATIVE),
-    STUN("STUN:", StatType.MULTIPLICATIVE),
-    REGENERATION("REGEN:", StatType.ADDITIVE),
-    STEAL("STEAL:", StatType.MULTIPLICATIVE),
-    POISON("POISON:", StatType.MULTIPLICATIVE),
+    HP("HP:", Type.ADDITIVE, false),
+    ATTACK("ATK:", Type.ADDITIVE, false),
+    DODGE("DODGE:", Type.MULTIPLICATIVE, true),
+    COMBO("COMBO:", Type.MULTIPLICATIVE, true),
+    CRITICAL("CRIT:", Type.MULTIPLICATIVE, true),
+    STUN("STUN:", Type.MULTIPLICATIVE, true),
+    REGENERATION("REGEN:", Type.ADDITIVE, false),
+    STEAL("STEAL:", Type.MULTIPLICATIVE, true),
+    POISON("POISON:", Type.MULTIPLICATIVE, true),
     ;
 
     @Getter
     private final String title;
-
     @Getter
-    private final StatType defaultType;
+    private final Type defaultType;
+    @Getter
+    private final boolean defaultRequired;
 
-    Stat(String title, StatType defaultType) {
+    Stat(String title, Type defaultType, boolean defaultRequired) {
         this.title = title;
         this.defaultType = defaultType;
+        this.defaultRequired = defaultRequired;
     }
 
     public static Stat getStatByTitle(String value) {
@@ -31,7 +33,7 @@ public enum Stat {
         }
         throw new IllegalArgumentException("Unknown stat title: " + value);
     }
-    public enum StatType{
+    public enum Type {
         ADDITIVE,
         MULTIPLICATIVE
         ;

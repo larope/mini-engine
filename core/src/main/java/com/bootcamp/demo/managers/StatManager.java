@@ -6,29 +6,54 @@ import com.bootcamp.demo.data.save.GearSaveData;
 import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.Stat;
 import com.bootcamp.demo.data.save.StatEntry;
+import lombok.Getter;
 
 public class StatManager {
     private SaveData data;
-    private final ObjectMap<Stat, Float> stats = new ObjectMap<>();
+
+    private final ObjectMap<Stat, Float> additiveStats = new ObjectMap<>();
+    private final ObjectMap<Stat, Float> multiplicativeStats = new ObjectMap<>();
+
+    public ObjectMap<Stat, Float> getAdditiveStats() {
+        recalculate();
+        return new ObjectMap<>(additiveStats);
+    }
+
+    public ObjectMap<Stat, Float> getMultiplicativeStats() {
+        recalculate();
+        return new ObjectMap<>(multiplicativeStats);
+    }
 
     public void setData(SaveData data) {
         this.data = data;
 
+        recalculate();
+    }
+
+    private void recalculate() {
+        for (Stat stat : Stat.values()) {
+            additiveStats.put(stat, 1f);
+            multiplicativeStats.put(stat, 100f);
+        }
+
         for (ObjectMap.Entry<GearType, GearSaveData> gear : data.getGearsSaveData().getGears()) {
             for (ObjectMap.Entry<Stat, StatEntry> entry : gear.value.getStats().getValues()) {
-                if(!stats.containsKey(entry.key)){
-                    stats.put(entry.key, 0f);
+                if(entry.value.getStatType() == Stat.Type.ADDITIVE){
+                    additiveStats.put(entry.key, additiveStats.get(entry.key)+entry.value.getValue());
                 }
-                float statEntry = stats.get(entry.key);
-                statEntry += entry.value.getValue();
-
-                stats.put(entry.key, statEntry);
+                if(entry.value.getStatType() == Stat.Type.MULTIPLICATIVE){
+                    multiplicativeStats.put(entry.key, multiplicativeStats.get(entry.key)+entry.value.getValue());
+                }
             }
         }
     }
 
     public float getStatCombined(Stat stat) {
-        return stats.get(stat);
+        recalculate();
+        if(stat.getDefaultType() == Stat.Type.MULTIPLICATIVE && stat.isDefaultRequired()){
+            return multiplicativeStats.get(stat)-100f;
+        }
+        return additiveStats.get(stat) * multiplicativeStats.get(stat)/100;
     }
 
     public ObjectMap<Stat, Float> getAllStatsCombined() {
@@ -44,13 +69,8 @@ public class StatManager {
     public int getPower(){
         int power = 0;
 
-        for (Stat stat : Stat.values()) {
-            if(stat.getDefaultType() == Stat.StatType.ADDITIVE) {
-                power += stats.get(stat);
-            }
-            else if(stat.getDefaultType() == Stat.StatType.MULTIPLICATIVE) {
-                power *= (int) (1 + stats.get(stat)/100);
-            }
+        for (ObjectMap.Entry<Stat, Float> stat : getAllStatsCombined()) {
+            power += stat.value;
         }
 
         return power;

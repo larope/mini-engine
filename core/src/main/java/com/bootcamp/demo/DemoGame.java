@@ -35,7 +35,7 @@ public class DemoGame extends Game {
     private void loadSaveData () {
         final FileHandle file = getPlayerDataFileHandler();
 
-        if (!file.exists()) {
+        if (!file.exists() || file.length() < 10) {
             createNewSaveData();
             return;
         }

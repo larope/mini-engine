@@ -23,4 +23,8 @@ public enum Rarity {
     Rarity(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
+
+    public static Rarity getRandomRarity() {
+        return Rarity.values()[(int) (Math.random() * Rarity.values().length)];
+    }
 }

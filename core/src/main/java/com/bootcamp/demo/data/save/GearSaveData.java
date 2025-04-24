@@ -6,6 +6,8 @@ import com.bootcamp.demo.data.game.GearType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Locale;
+
 public class GearSaveData implements Json.Serializable {
     @Getter @Setter
     private GearType type;
@@ -16,7 +18,7 @@ public class GearSaveData implements Json.Serializable {
     @Getter @Setter
     private String skin;
 
-    private final Stats stats = new Stats();
+    private Stats stats = new Stats();
 
     public Stats getStats(){
         if(!stats.isFilled()){
@@ -32,16 +34,16 @@ public class GearSaveData implements Json.Serializable {
         json.writeValue("l", level);
         json.writeValue("s", starCount);
         json.writeValue("sk", skin);
-        stats.write(json);
+        json.writeValue("st", stats);
     }
 
     @Override
     public void read(Json json, JsonValue jsonValue) {
-        type = GearType.valueOf(jsonValue.getString("t"));
+        type = GearType.valueOf(jsonValue.getString("t").toUpperCase(Locale.ENGLISH));
         level = jsonValue.getInt("l");
         starCount = jsonValue.getInt("s");
         skin = jsonValue.getString("sk");
-        stats.read(json, jsonValue);
+        stats = json.readValue(Stats.class, jsonValue.get("st"));
     }
 
     public void setDefaults(){
