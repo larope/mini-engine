@@ -1,13 +1,11 @@
-package com.bootcamp.demo.data.save.gear;
+package com.bootcamp.demo.data.save.gears;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.data.game.gear.GearGameData;
 import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.save.stats.Stats;
-import com.bootcamp.demo.engine.Resources;
 import com.bootcamp.demo.managers.API;
 import lombok.Getter;
 import lombok.Setter;

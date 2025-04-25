@@ -16,7 +16,8 @@ import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
-import com.bootcamp.demo.data.save.gear.GearSaveData;
+import com.bootcamp.demo.data.save.gears.GearSaveData;
+import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
 import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
 import com.bootcamp.demo.dialogs.TestDialog;
 import com.bootcamp.demo.dialogs.core.DialogManager;
@@ -54,7 +55,8 @@ public class HuntingPage extends APage {
         powerWidget.setData(statManager.getPower());
 
         accessoriesWidget = new AccessoriesWidget();
-        accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), saveData.getTacticalsSaveSata().getTacticals());
+        IntMap<TacticalSaveData> tacticalsAsData = saveData.getInventorySaveData().getEquippedTacticalsSaveData().getTacticalsAsData();
+        accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), tacticalsAsData);
 
         buttonWidget = new ButtonWidget();
         buttonWidget.setData();
@@ -344,7 +346,7 @@ public class HuntingPage extends APage {
     }
     private static class StarsSegment extends Table{
         private int maxStarCount;
-        private Array<Table> stars = new Array<>();
+        private final Array<Table> stars = new Array<>();
 
         private static Table createStar() {
             Image star = new Image(Resources.getDrawable("ui/star"));
@@ -462,12 +464,18 @@ public class HuntingPage extends APage {
             tacticalsContainer.background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C4B7AE"))).pad(10);
             tacticalsContainer.defaults().space(10).grow().uniform();
 
-            for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
-                TacticalsCell item = new TacticalsCell();
-                item.setData(tactical.value);
-                tacticalsContainer.add(item.construct());
+            for (int i = 0; i < EquippedTacticalsSaveData.TACTICALS_COUNT; i++) {
+                TacticalSaveData tactical = tacticals.get(i);
+                if(tactical != null){
+                    final TacticalsCell item = new TacticalsCell();
+                    item.setData(tactical);
+                    tacticalsContainer.add(item.construct());
+                }
+                else{
+                    final Table emptyCell = new Table();
+                    tacticalsContainer.add(emptyCell);
+                }
             }
-
             add(tacticalsContainer);
             return this;
         }

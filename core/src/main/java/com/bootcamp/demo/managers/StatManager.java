@@ -3,7 +3,7 @@ package com.bootcamp.demo.managers;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.bootcamp.demo.data.game.gear.GearType;
-import com.bootcamp.demo.data.save.gear.GearSaveData;
+import com.bootcamp.demo.data.save.gears.GearSaveData;
 import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.stats.StatEntry;
@@ -38,7 +38,7 @@ public class StatManager {
             multiplicativeStats.put(stat, 100f);
         }
 
-        for (IntMap.Entry<TacticalSaveData> tactical : data.getTacticalsSaveSata().getTacticals()) {
+        for (IntMap.Entry<TacticalSaveData> tactical : data.getInventorySaveData().getEquippedTacticalsSaveData().getTacticalsAsData()) {
             addStats(tactical.value.getStats());
         }
 

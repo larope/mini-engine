@@ -80,7 +80,6 @@ public class DemoGame extends Game {
     @Override
     public void dispose () {
         super.dispose();
-        savePlayerData();
 
         API.Instance().dispose();
         Gdx.app.exit();

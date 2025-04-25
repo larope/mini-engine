@@ -1,4 +1,4 @@
-package com.bootcamp.demo.data.save.gear;
+package com.bootcamp.demo.data.save.gears;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;

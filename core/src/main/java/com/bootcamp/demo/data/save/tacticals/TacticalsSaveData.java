@@ -1,29 +1,22 @@
 package com.bootcamp.demo.data.save.tacticals;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.managers.RandomData;
-import com.bootcamp.demo.managers.API;
+import com.badlogic.gdx.utils.ObjectMap;
+import lombok.Getter;
 
 public class TacticalsSaveData implements Json.Serializable {
-    // TODO abstract this shit to higher level to inherit cause gears do the same
-    private final int tacticalsCount = 4;
-    private final IntMap<TacticalSaveData> tacticals = new IntMap<>();
+    @Getter
+    private final ObjectMap<String, TacticalSaveData> tacticals = new ObjectMap<>();
 
-
-    public IntMap<TacticalSaveData> getTacticals() {
-        if (!isFilled()) {
-            setDefaults();
-        }
-        return tacticals;
+    public void addTactical(TacticalSaveData tactical) {
+        tacticals.put(tactical.getName(), tactical);
     }
 
     @Override
     public void write (Json json) {
-        for (IntMap.Entry<TacticalSaveData> entry : tacticals.entries()) {
-            json.writeValue(String.valueOf(entry.key), entry.value);
+        for (ObjectMap.Entry<String, TacticalSaveData> entry : tacticals) {
+            json.writeValue(entry.key, entry.value);
         }
     }
 
@@ -32,22 +25,8 @@ public class TacticalsSaveData implements Json.Serializable {
         tacticals.clear();
 
         for (JsonValue value : jsonValue) {
-            final Integer slotIndex = Integer.valueOf(value.name);
             final TacticalSaveData data = json.readValue(TacticalSaveData.class, value);
-            tacticals.put(slotIndex, data);
-        }
-    }
-
-    public boolean isFilled(){
-        return tacticals.size == tacticalsCount;
-    }
-
-    public void setDefaults(){
-        for (int i = 0; i < tacticalsCount; i++) {
-            if(tacticals.containsKey(i)) continue;
-            TacticalSaveData defaultTactical = API.get(RandomData.class).getRandomTactical(3, 8, 1, 3, 3, 7);
-            defaultTactical.setStats(API.get(RandomData.class).getRandomStats(new Vector2(20, 500), new Vector2(0,1)));
-            tacticals.put(i, defaultTactical);
+            tacticals.put(data.getName(), data);
         }
     }
 }

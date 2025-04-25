@@ -8,10 +8,12 @@ import com.bootcamp.demo.data.game.Rarity;
 import com.bootcamp.demo.data.game.gear.GearGameData;
 import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.game.gear.GearsGameData;
+import com.bootcamp.demo.data.game.pet.PetsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.gear.GearSaveData;
-import com.bootcamp.demo.data.save.gear.GearSkinSaveData;
+import com.bootcamp.demo.data.save.gears.GearSaveData;
+import com.bootcamp.demo.data.save.gears.GearSkinSaveData;
+import com.bootcamp.demo.data.save.pets.PetSaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.stats.StatEntry;
 import com.bootcamp.demo.data.save.stats.Stats;
@@ -22,11 +24,13 @@ import java.util.Random;
 public class RandomData {
     private final GearsGameData gearsGameData;
     private final TacticalsGameData tacticalsGameData;
+    private final PetsGameData petsGameData;
     private final Random random;
 
     public RandomData() {
         gearsGameData = API.get(GameData.class).getGearsGameData();
         tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
+        petsGameData = API.get(GameData.class).getPetsGameData();
         random = new Random();
     }
 
@@ -93,16 +97,22 @@ public class RandomData {
 
         return data;
     }
-    public TacticalSaveData getRandomTactical(int minLevel, int maxLevel, int minStar, int maxStar, int minCount, int maxCount) {
-        TacticalSaveData data = new TacticalSaveData();
+    public TacticalSaveData getRandomTactical(int minLevel, int maxLevel, int minCount, int maxCount) {
         Array<String> names = tacticalsGameData.getTacticals().keys().toArray();
+
+        TacticalSaveData data = new TacticalSaveData();
 
         data.setName(names.get(random.nextInt(names.size)));
         data.setLevel(random.nextInt(maxLevel-minLevel) + minLevel);
-        data.setCount(random.nextInt(maxStar-minStar)+minStar);
-
+        data.setCount(random.nextInt(maxCount-minCount)+minCount);
         data.setRarity(Rarity.getRandomRarity());
 
+        return data;
+    }
+    public PetSaveData getRandomPet(){
+        Array<String> names = petsGameData.getPets().keys().toArray();
+        PetSaveData data = new PetSaveData();
+        data.setName(names.get(random.nextInt(names.size)));
 
         return data;
     }

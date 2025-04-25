@@ -1,6 +1,5 @@
-package com.bootcamp.demo.data.save.gear;
+package com.bootcamp.demo.data.save.gears;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
