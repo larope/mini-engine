@@ -19,8 +19,6 @@ import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.gears.GearSaveData;
 import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
 import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
-import com.bootcamp.demo.dialogs.TestDialog;
-import com.bootcamp.demo.dialogs.core.DialogManager;
 import com.bootcamp.demo.engine.Labels;
 import com.bootcamp.demo.engine.Resources;
 import com.bootcamp.demo.engine.Squircle;
@@ -29,6 +27,9 @@ import com.bootcamp.demo.engine.widgets.OffsetButton;
 import com.bootcamp.demo.engine.widgets.PressableTable;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.localization.GameFont;
+import com.bootcamp.demo.mDialogs.ItemStatsDialog;
+import com.bootcamp.demo.mDialogs.core.mADialog;
+import com.bootcamp.demo.mDialogs.core.mDialogManager;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
@@ -208,50 +209,6 @@ public class HuntingPage extends APage {
         }
     }
 
-    private static class GearsWidget extends Table{
-        private static final int gearCount = 6;
-        private ObjectMap<GearType, GearSaveData> gears;
-        private SetIndicatorSegment indicator;
-
-        public void setData(ObjectMap<GearType, GearSaveData> gears){
-            this.gears = gears;
-
-            indicator = new SetIndicatorSegment();
-            indicator.setData();
-        }
-
-        public Table construct(){
-            assert gearsAvailable() : "Invalid number of gears: expected " + gearCount + ", but got " + (gears == null ? "null" : gears.size);
-
-            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7"))).pad(15,30,15,30);
-
-            add(indicator.construct()).growX().height(50);
-            row();
-            add(constructEquipmentSegment()).spaceTop(15);
-
-            return this;
-        }
-
-        private Table constructEquipmentSegment(){
-            final WidgetsContainer<Table> gearContainer = new WidgetsContainer<>(3);
-            gearContainer.defaults().size(defaultRectSize)
-                .space(20);
-
-            for (GearType type : GearType.values()) {
-                GearSaveData gear = gears.get(type);
-                final GearCell item = new GearCell();
-                item.setData(gear);
-
-                gearContainer.add(item.construct());
-            }
-
-            return gearContainer;
-        }
-
-        private boolean gearsAvailable() {
-            return gears != null && gears.size == gearCount;
-        }
-    }
 
     private static class GearCell extends BorderedTable{
         GearSaveData data;
@@ -344,6 +301,7 @@ public class HuntingPage extends APage {
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(data.getRarity().getBorderColor()));
         }
     }
+
     private static class StarsSegment extends Table{
         private int maxStarCount;
         private final Array<Table> stars = new Array<>();
@@ -382,7 +340,6 @@ public class HuntingPage extends APage {
             }
         }
     }
-
     private static class SetIndicatorSegment extends Table{
         public Table construct(){
             background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
@@ -395,6 +352,50 @@ public class HuntingPage extends APage {
         public void setData(){}
     }
 
+    private static class GearsWidget extends Table{
+        private static final int gearCount = 6;
+        private ObjectMap<GearType, GearSaveData> gears;
+        private SetIndicatorSegment indicator;
+
+        public void setData(ObjectMap<GearType, GearSaveData> gears){
+            this.gears = gears;
+
+            indicator = new SetIndicatorSegment();
+            indicator.setData();
+        }
+
+        public Table construct(){
+            assert gearsAvailable() : "Invalid number of gears: expected " + gearCount + ", but got " + (gears == null ? "null" : gears.size);
+
+            background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7"))).pad(15,30,15,30);
+
+            add(indicator.construct()).growX().height(50);
+            row();
+            add(constructEquipmentSegment()).spaceTop(15);
+
+            return this;
+        }
+
+        private Table constructEquipmentSegment(){
+            final WidgetsContainer<Table> gearContainer = new WidgetsContainer<>(3);
+            gearContainer.defaults().size(defaultRectSize)
+                .space(20);
+
+            for (GearType type : GearType.values()) {
+                GearSaveData gear = gears.get(type);
+                final GearCell item = new GearCell();
+                item.setData(gear);
+
+                gearContainer.add(item.construct());
+            }
+
+            return gearContainer;
+        }
+
+        private boolean gearsAvailable() {
+            return gears != null && gears.size == gearCount;
+        }
+    }
     private static class SecondaryGearWidget extends Table{
         private TacticalsWidget tacticalsWidget;
         private FlagWidget flagWidget;
@@ -444,8 +445,12 @@ public class HuntingPage extends APage {
     }
     private static class TacticalsWidget extends PressableTable {
         TacticalsWidget(){
+            ItemStatsDialog dialog = new ItemStatsDialog();
+            dialog.hide();
+            API.get(mDialogManager.class).setDialog(dialog);
+
             setOnClick(() -> {
-                API.get(DialogManager.class).show(TestDialog.class);
+                API.get(mDialogManager.class).show();
             });
         }
         private static final int tacticalCount = 4;
