@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.bootcamp.demo.data.game.gear.GearType;
-import com.bootcamp.demo.data.save.RandomData;
+import com.bootcamp.demo.managers.RandomData;
 import com.bootcamp.demo.managers.API;
 
 public class GearsSaveData implements Json.Serializable {

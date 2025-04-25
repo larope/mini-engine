@@ -17,7 +17,7 @@ public class GearSaveData implements Json.Serializable {
     @Getter @Setter
     private int starCount;
     @Getter @Setter
-    private GearSkinSaveData skin;
+    private String skin;
     @Getter @Setter
     private Rarity rarity;
 
@@ -26,7 +26,7 @@ public class GearSaveData implements Json.Serializable {
 
     public void setSkin(GearSkinSaveData skin) {
         assert (skin.type == type) : "The expected type for skin is " + type.name() + " but received " + skin.type.name();
-        this.skin = skin;
+        this.skin = skin.name;
     }
 
     public Stats getStats(){
@@ -52,7 +52,7 @@ public class GearSaveData implements Json.Serializable {
         type = GearType.valueOf(jsonValue.getString("t").toUpperCase(Locale.ENGLISH));
         level = jsonValue.getInt("l");
         starCount = jsonValue.getInt("s");
-        skin = json.readValue(GearSkinSaveData.class, jsonValue.get("sk"));
+        skin = jsonValue.getString("sk");
         rarity = Rarity.valueOf(jsonValue.getString("r".toUpperCase(Locale.ENGLISH)));
         stats = json.readValue(Stats.class, jsonValue.get("st"));
     }

@@ -20,6 +20,15 @@ public class GearSkinsSaveData implements Json.Serializable {
         availableSkins.get(skin.type).add(skin);
     }
 
+    public GearSkinSaveData getSkin(GearType type, String name){
+        for(GearSkinSaveData skin : availableSkins.get(type)){
+            if(skin.name.equals(name)){
+                return skin;
+            }
+        }
+
+        return null;
+    }
     @Override
     public void write(Json json) {
         for (ObjectMap.Entry<GearType, Array<GearSkinSaveData>> skins : availableSkins) {

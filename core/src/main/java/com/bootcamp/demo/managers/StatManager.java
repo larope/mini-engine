@@ -44,7 +44,7 @@ public class StatManager {
 
         for (ObjectMap.Entry<GearType, GearSaveData> gear : data.getGearsSaveData().getGears()) {
             addStats(gear.value.getStats());
-            addStats(gear.value.getSkin().getStats());
+            addStats(data.getGearSkins().getSkin(gear.key, gear.value.getSkin()).getStats());
         }
 
     }

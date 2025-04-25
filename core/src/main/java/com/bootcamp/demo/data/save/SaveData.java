@@ -18,6 +18,4 @@ public class SaveData {
         gearsSaveData = new GearsSaveData();
         gearSkins = new GearSkinsSaveData();
     }
-
-
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.data.save.RandomData;
+import com.bootcamp.demo.managers.RandomData;
 import com.bootcamp.demo.managers.API;
 
 public class TacticalsSaveData implements Json.Serializable {

@@ -266,7 +266,7 @@ public class HuntingPage extends APage {
 
             final Table icon = new Table();
             ObjectMap<String, GearGameData> gearSkins = gameData.getGears().get(data.getType());
-            icon.background(gearSkins.get(data.getSkin().getName()).getDrawable());
+            icon.background(gearSkins.get(data.getSkin()).getDrawable());
 
             add(icon).grow();
             addActor(constructStatsOverlay());

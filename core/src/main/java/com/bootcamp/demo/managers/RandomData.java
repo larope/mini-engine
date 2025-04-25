@@ -1,4 +1,4 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.managers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -9,14 +9,13 @@ import com.bootcamp.demo.data.game.gear.GearGameData;
 import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
+import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.gear.GearSaveData;
 import com.bootcamp.demo.data.save.gear.GearSkinSaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.stats.StatEntry;
 import com.bootcamp.demo.data.save.stats.Stats;
 import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
-import com.bootcamp.demo.data.save.tacticals.TacticalsSaveData;
-import com.bootcamp.demo.managers.API;
 
 import java.util.Random;
 
@@ -31,30 +30,6 @@ public class RandomData {
         random = new Random();
     }
 
-    public GearSaveData getRandomGear(GearType type, int minLevel, int maxLevel, int minStar, int maxStar) {
-        GearSaveData data = new GearSaveData();
-
-        data.setLevel(random.nextInt(maxLevel-minLevel) + minLevel);
-
-        data.setStarCount(random.nextInt(maxStar-minStar)+minStar);
-
-        data.setType(type);
-
-        data.setRarity(Rarity.getRandomRarity());
-
-        ObjectMap<String, GearGameData> gears = gearsGameData.getGears().get(type);
-        Array<String> availableSkins = gears.keys().toArray();
-
-        Stats skinStats = new Stats();
-        skinStats.setDefaults();
-        GearSkinSaveData skin = new GearSkinSaveData();
-        skin.setStats(skinStats);
-        skin.setName(availableSkins.get(random.nextInt(availableSkins.size)));
-        skin.setType(type);
-        data.setSkin(skin);
-
-        return data;
-    }
 
     public Stats getRandomStats(Vector2 additiveRange, Vector2 multiplicativeRange){
         Stats stats = new Stats();
@@ -65,11 +40,9 @@ public class RandomData {
 
         return stats;
     }
-
     public StatEntry getRandomStat(Vector2 additiveRange, Vector2 multiplicativeRange){
         return getRandomStat(additiveRange, multiplicativeRange, Stat.values()[random.nextInt(Stat.values().length)]);
     }
-
     public StatEntry getRandomStat(Vector2 additiveRange, Vector2 multiplicativeRange, Stat type){
         StatEntry stat = new StatEntry();
         stat.setStat(type);
@@ -95,6 +68,31 @@ public class RandomData {
         return stat;
     }
 
+    public GearSaveData getRandomGear(GearType type, int minLevel, int maxLevel, int minStar, int maxStar) {
+        GearSaveData data = new GearSaveData();
+
+        data.setLevel(random.nextInt(maxLevel-minLevel) + minLevel);
+
+        data.setStarCount(random.nextInt(maxStar-minStar)+minStar);
+
+        data.setType(type);
+
+        data.setRarity(Rarity.getRandomRarity());
+
+        ObjectMap<String, GearGameData> gears = gearsGameData.getGears().get(type);
+        Array<String> availableSkins = gears.keys().toArray();
+
+        Stats skinStats = new Stats();
+        skinStats.setDefaults();
+        GearSkinSaveData skin = new GearSkinSaveData();
+        skin.setStats(skinStats);
+        skin.setName(availableSkins.get(random.nextInt(availableSkins.size)));
+        skin.setType(type);
+        API.get(SaveData.class).getGearSkins().addSkin(skin);
+        data.setSkin(skin);
+
+        return data;
+    }
     public TacticalSaveData getRandomTactical(int minLevel, int maxLevel, int minStar, int maxStar, int minCount, int maxCount) {
         TacticalSaveData data = new TacticalSaveData();
         Array<String> names = tacticalsGameData.getTacticals().keys().toArray();

@@ -1,1 +1,862 @@
-{"tacticalsSaveSata":{"0":{"n":"compass","l":6,"c":1,"r":"DOMINION","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.42609268},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":0.89011335},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.80418485},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.09212041},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.05993539},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.8243338},"HP":{"s":"HP","t":"MULTIPLICATIVE","v":0.84744984},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.51542765},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.49815643}}},"2":{"n":"compass","l":3,"c":1,"r":"JUGGERNAUT","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.28204727},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":335.16547},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.3903612},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.91046935},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.29325384},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.97877926},"HP":{"s":"HP","t":"MULTIPLICATIVE","v":0.57758725},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.880779},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.6509013}}},"1":{"n":"shuriken","l":5,"c":2,"r":"DOMINION","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.7150233},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":159.97943},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.82527494},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.17572361},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.79706484},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.370893},"HP":{"s":"HP","t":"MULTIPLICATIVE","v":0.26392412},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.95553726},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":159.38689}}},"3":{"n":"compass","l":6,"c":1,"r":"OBLIVION","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.43897617},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":0.030325353},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.9047363},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.32789844},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.2615903},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.76657647},"HP":{"s":"HP","t":"ADDITIVE","v":130.51895},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.6293836},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.010726869}}}},"gearsSaveData":{"HAT":{"t":"HAT","l":9,"s":1,"sk":{"n":"RegularHat","t":"HAT","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"HARDENED","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.050125122},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":0.6107602},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":1.398577},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.7942107},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.19454134},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":1.3968407},"HP":{"s":"HP","t":"ADDITIVE","v":413.50443},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.5061363},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":407.70624}}},"MELEE":{"t":"MELEE","l":10,"s":1,"sk":{"n":"Dubinka","t":"MELEE","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"NUCLEAR","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.7763933},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":458.6617},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.010736793},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.31754816},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.51965666},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.5919676},"HP":{"s":"HP","t":"MULTIPLICATIVE","v":0.16267079},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":1.4727738},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":243.69962}}},"GUN":{"t":"GUN","l":7,"s":3,"sk":{"n":"Ak47","t":"GUN","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"SCRAP","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.2612662},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":0.9961406},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.83418775},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.53874046},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.89043206},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.889891},"HP":{"s":"HP","t":"ADDITIVE","v":382.81128},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.49219072},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.012164265}}},"GLOVES":{"t":"GLOVES","l":3,"s":1,"sk":{"n":"PerchatkaBeskanechnosti","t":"GLOVES","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"SCRAP","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0.19857046},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":1.1411004},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.81765485},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0.4217635},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":1.1591723},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0.89317006},"HP":{"s":"HP","t":"ADDITIVE","v":217.70412},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":1.211174},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.36576095}}},"SHIRT":{"t":"SHIRT","l":16,"s":1,"sk":{"n":"Vest","t":"SHIRT","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"SCRAP","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":1.4999573},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":373.10562},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0.7580948},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":1.2161752},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.8525785},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":1.2951051},"HP":{"s":"HP","t":"MULTIPLICATIVE","v":1.079358},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.83741426},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":413.66397}}},"BOOTS":{"t":"BOOTS","l":19,"s":2,"sk":{"n":"BootsOfPhallus","t":"BOOTS","s":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":0},"ATTACK":{"s":"ATTACK","t":"ADDITIVE","v":0},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":0},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":0},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":0},"HP":{"s":"HP","t":"ADDITIVE","v":0},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0},"REGENERATION":{"s":"REGENERATION","t":"ADDITIVE","v":0}}},"r":"RUSTED","st":{"STUN":{"s":"STUN","t":"MULTIPLICATIVE","v":1.3835024},"ATTACK":{"s":"ATTACK","t":"MULTIPLICATIVE","v":0.03878948},"STEAL":{"s":"STEAL","t":"MULTIPLICATIVE","v":1.0609431},"DODGE":{"s":"DODGE","t":"MULTIPLICATIVE","v":1.3641406},"POISON":{"s":"POISON","t":"MULTIPLICATIVE","v":0.73052156},"CRITICAL":{"s":"CRITICAL","t":"MULTIPLICATIVE","v":1.3201075},"HP":{"s":"HP","t":"ADDITIVE","v":482.29648},"COMBO":{"s":"COMBO","t":"MULTIPLICATIVE","v":0.044419974},"REGENERATION":{"s":"REGENERATION","t":"MULTIPLICATIVE","v":0.3103011}}}},"gearSkins":{"HAT":[],"MELEE":[],"GUN":[],"GLOVES":[],"SHIRT":[],"BOOTS":[]}}
+{
+  "tacticalsSaveSata": {
+    "0": {
+      "n": "night-vision-glasses",
+      "l": 5,
+      "c": 2,
+      "r": "ELITE",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.51619244
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.30965322
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 170.65892
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 480.71423
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.763247
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8888899
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.30780607
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.13538462
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.36206198
+        }
+      }
+    },
+    "2": {
+      "n": "compass",
+      "l": 5,
+      "c": 1,
+      "r": "SCRAP",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.3005144
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.35028344
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "MULTIPLICATIVE",
+          "v": 0.6871348
+        },
+        "HP": {
+          "s": "HP",
+          "t": "MULTIPLICATIVE",
+          "v": 0.39145952
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.42566156
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.78016865
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.0121747255
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.37642598
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.86686736
+        }
+      }
+    },
+    "1": {
+      "n": "night-vision-glasses",
+      "l": 6,
+      "c": 1,
+      "r": "SCRAP",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.3857112
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "ADDITIVE",
+          "v": 75.44656
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 252.54202
+        },
+        "HP": {
+          "s": "HP",
+          "t": "MULTIPLICATIVE",
+          "v": 0.54309124
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.68020815
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8442998
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.6786616
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.43761766
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8172369
+        }
+      }
+    },
+    "3": {
+      "n": "night-vision-glasses",
+      "l": 7,
+      "c": 1,
+      "r": "RUSTED",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.9240728
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.51158905
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 184.6097
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 325.13593
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.5034733
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.55443704
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.86060345
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.7698419
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.45548403
+        }
+      }
+    }
+  },
+  "gearsSaveData": {
+    "GLOVES": {
+      "t": "GLOVES",
+      "l": 19,
+      "s": 2,
+      "sk": "PerchatkaBeskanechnosti",
+      "r": "RUSTED",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4912702
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 1.0783709
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "MULTIPLICATIVE",
+          "v": 0.7994467
+        },
+        "HP": {
+          "s": "HP",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4045933
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 1.1194689
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.3333359
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.5259539
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.093239754
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.82583404
+        }
+      }
+    },
+    "MELEE": {
+      "t": "MELEE",
+      "l": 9,
+      "s": 1,
+      "sk": "Dubinka",
+      "r": "ASCENDANT",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.5284308
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.32861826
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 368.00946
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 384.69824
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.050687134
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.43592316
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.14946753
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.1862301
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.1540213
+        }
+      }
+    },
+    "GUN": {
+      "t": "GUN",
+      "l": 13,
+      "s": 3,
+      "sk": "Ak47",
+      "r": "OBLIVION",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.73134416
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.0648703
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 371.69934
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 290.80823
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.01761353
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.6911389
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4566903
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4897109
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 0.373085
+        }
+      }
+    },
+    "BOOTS": {
+      "t": "BOOTS",
+      "l": 17,
+      "s": 1,
+      "sk": "TheMatovTapochka",
+      "r": "OBLIVION",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.0769229
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.15279034
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 481.09082
+        },
+        "HP": {
+          "s": "HP",
+          "t": "MULTIPLICATIVE",
+          "v": 1.3344274
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 1.122004
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.5099884
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.87806153
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.83526796
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4701285
+        }
+      }
+    },
+    "HAT": {
+      "t": "HAT",
+      "l": 15,
+      "s": 3,
+      "sk": "RegularHat",
+      "r": "ASCENDANT",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.43423775
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "ADDITIVE",
+          "v": 381.79675
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "ADDITIVE",
+          "v": 396.0371
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 338.37872
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.9470626
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.0785729
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.7638682
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 0.97264177
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 1.2083972
+        }
+      }
+    },
+    "SHIRT": {
+      "t": "SHIRT",
+      "l": 4,
+      "s": 1,
+      "sk": "Vest",
+      "r": "ASCENDANT",
+      "st": {
+        "CRITICAL": {
+          "s": "CRITICAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.2906506
+        },
+        "REGENERATION": {
+          "s": "REGENERATION",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8137909
+        },
+        "ATTACK": {
+          "s": "ATTACK",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8664793
+        },
+        "HP": {
+          "s": "HP",
+          "t": "ADDITIVE",
+          "v": 279.15558
+        },
+        "DODGE": {
+          "s": "DODGE",
+          "t": "MULTIPLICATIVE",
+          "v": 0.8803012
+        },
+        "COMBO": {
+          "s": "COMBO",
+          "t": "MULTIPLICATIVE",
+          "v": 0.4571406
+        },
+        "POISON": {
+          "s": "POISON",
+          "t": "MULTIPLICATIVE",
+          "v": 0.08241096
+        },
+        "STEAL": {
+          "s": "STEAL",
+          "t": "MULTIPLICATIVE",
+          "v": 1.1817654
+        },
+        "STUN": {
+          "s": "STUN",
+          "t": "MULTIPLICATIVE",
+          "v": 1.4290085
+        }
+      }
+    }
+  },
+  "gearSkins": {
+    "GLOVES": [
+      {
+        "n": "PerchatkaBeskanechnosti",
+        "t": "GLOVES",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ],
+    "MELEE": [
+      {
+        "n": "Dubinka",
+        "t": "MELEE",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ],
+    "GUN": [
+      {
+        "n": "Ak47",
+        "t": "GUN",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ],
+    "BOOTS": [
+      {
+        "n": "TheMatovTapochka",
+        "t": "BOOTS",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ],
+    "HAT": [
+      {
+        "n": "RegularHat",
+        "t": "HAT",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ],
+    "SHIRT": [
+      {
+        "n": "Vest",
+        "t": "SHIRT",
+        "s": {
+          "CRITICAL": {
+            "s": "CRITICAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "REGENERATION": {
+            "s": "REGENERATION",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "ATTACK": {
+            "s": "ATTACK",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "HP": {
+            "s": "HP",
+            "t": "ADDITIVE",
+            "v": 0
+          },
+          "DODGE": {
+            "s": "DODGE",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "COMBO": {
+            "s": "COMBO",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "POISON": {
+            "s": "POISON",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STEAL": {
+            "s": "STEAL",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          },
+          "STUN": {
+            "s": "STUN",
+            "t": "MULTIPLICATIVE",
+            "v": 0
+          }
+        }
+      }
+    ]
+  }
+}
