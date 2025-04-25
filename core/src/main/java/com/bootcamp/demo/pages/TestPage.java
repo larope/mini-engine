@@ -78,6 +78,6 @@ public class TestPage extends APage {
     @Override
     public void show (Runnable onComplete) {
         super.show(onComplete);
-        tacticalsContainer.setData(API.get(SaveData.class).getTacticalsSaveData());
+        tacticalsContainer.setData(API.get(SaveData.class).getTacticalsSaveSata());
     }
 }

@@ -10,6 +10,7 @@ import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import com.bootcamp.demo.data.save.gear.GearSaveData;
+import com.bootcamp.demo.data.save.gear.GearSkinSaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.stats.StatEntry;
 import com.bootcamp.demo.data.save.stats.Stats;
@@ -43,7 +44,14 @@ public class RandomData {
 
         ObjectMap<String, GearGameData> gears = gearsGameData.getGears().get(type);
         Array<String> availableSkins = gears.keys().toArray();
-        data.setSkin(availableSkins.get(random.nextInt(availableSkins.size)));
+
+        Stats skinStats = new Stats();
+        skinStats.setDefaults();
+        GearSkinSaveData skin = new GearSkinSaveData();
+        skin.setStats(skinStats);
+        skin.setName(availableSkins.get(random.nextInt(availableSkins.size)));
+        skin.setType(type);
+        data.setSkin(skin);
 
         return data;
     }

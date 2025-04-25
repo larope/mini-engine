@@ -32,7 +32,6 @@ import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
-import lombok.Setter;
 
 public class HuntingPage extends APage {
     static final int defaultRectSize = 225;
@@ -55,7 +54,7 @@ public class HuntingPage extends APage {
         powerWidget.setData(statManager.getPower());
 
         accessoriesWidget = new AccessoriesWidget();
-        accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), saveData.getTacticalsSaveData().getTacticals());
+        accessoriesWidget.setData(saveData.getGearsSaveData().getGears(), saveData.getTacticalsSaveSata().getTacticals());
 
         buttonWidget = new ButtonWidget();
         buttonWidget.setData();
@@ -267,7 +266,7 @@ public class HuntingPage extends APage {
 
             final Table icon = new Table();
             ObjectMap<String, GearGameData> gearSkins = gameData.getGears().get(data.getType());
-            icon.background(gearSkins.get(data.getSkin()).getDrawable());
+            icon.background(gearSkins.get(data.getSkin().getName()).getDrawable());
 
             add(icon).grow();
             addActor(constructStatsOverlay());

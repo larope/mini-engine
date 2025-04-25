@@ -23,6 +23,6 @@ public class GameData {
 
     public void load () {
         tacticalsGameData.load(xmlReader.parse(Gdx.files.internal("data/tacticals.xml")));
-        gearsGameData.load(xmlReader.parse(Gdx.files.internal("data/GearSkins.xml")));
+        gearsGameData.load(xmlReader.parse(Gdx.files.internal("data/gearSkins.xml")));
     }
 }

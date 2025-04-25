@@ -34,6 +34,15 @@ public class Stats implements Json.Serializable {
             values.put(stat, statEntry);
         }
     }
+
+    public Stats plus(Stats other){
+        for (ObjectMap.Entry<Stat, StatEntry> stat : values) {
+            stat.value.setValue(stat.value.getValue() + other.values.get(stat.key).getValue());
+        }
+
+        return this;
+    }
+
     public boolean isFilled(){
         return values.size == Stat.values().length;
     }

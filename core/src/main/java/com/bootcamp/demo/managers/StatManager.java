@@ -1,11 +1,14 @@
 package com.bootcamp.demo.managers;
 
+import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.save.gear.GearSaveData;
 import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.stats.StatEntry;
+import com.bootcamp.demo.data.save.stats.Stats;
+import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
 
 public class StatManager {
     private SaveData data;
@@ -35,20 +38,31 @@ public class StatManager {
             multiplicativeStats.put(stat, 100f);
         }
 
+        for (IntMap.Entry<TacticalSaveData> tactical : data.getTacticalsSaveSata().getTacticals()) {
+            addStats(tactical.value.getStats());
+        }
+
         for (ObjectMap.Entry<GearType, GearSaveData> gear : data.getGearsSaveData().getGears()) {
-            for (ObjectMap.Entry<Stat, StatEntry> entry : gear.value.getStats().getValues()) {
-                if(entry.value.getStatType() == Stat.Type.ADDITIVE){
-                    additiveStats.put(entry.key, additiveStats.get(entry.key)+entry.value.getValue());
-                }
-                if(entry.value.getStatType() == Stat.Type.MULTIPLICATIVE){
-                    multiplicativeStats.put(entry.key, multiplicativeStats.get(entry.key)+entry.value.getValue());
-                }
+            addStats(gear.value.getStats());
+            addStats(gear.value.getSkin().getStats());
+        }
+
+    }
+
+    private void addStats(Stats stats) {
+        for (ObjectMap.Entry<Stat, StatEntry> entry : stats.getValues()) {
+            if(entry.value.getStatType() == Stat.Type.ADDITIVE){
+                additiveStats.put(entry.key, additiveStats.get(entry.key)+entry.value.getValue());
+            }
+            else if(entry.value.getStatType() == Stat.Type.MULTIPLICATIVE){
+                multiplicativeStats.put(entry.key, multiplicativeStats.get(entry.key)+entry.value.getValue());
             }
         }
     }
 
     public float getStatCombined(Stat stat) {
         recalculate();
+
         if(stat.getDefaultType() == Stat.Type.MULTIPLICATIVE && stat.isDefaultRequired()){
             return multiplicativeStats.get(stat)-100f;
         }

@@ -33,6 +33,7 @@ public enum Stat {
         }
         throw new IllegalArgumentException("Unknown stat title: " + value);
     }
+
     public enum Type {
         ADDITIVE,
         MULTIPLICATIVE
