@@ -285,6 +285,7 @@ public class OffsetButton extends Table implements INotificationContainer {
         GREEN_35(Squircle.SQUIRCLE_35, Squircle.SQUIRCLE_35_BORDER, Color.valueOf("#99D87F"), Color.valueOf("#6D9C56"), 22),
         YELLOW_35(Squircle.SQUIRCLE_35, Squircle.SQUIRCLE_35_BORDER, Color.valueOf("#DDB46B"), Color.valueOf("#9A8158"), 22),
         GRAY_35(Squircle.SQUIRCLE_35, Squircle.SQUIRCLE_35_BORDER, Color.valueOf("#BBBAB9"), Color.valueOf("#7D7D7D"), 22),
+        RED_35(Squircle.SQUIRCLE_35, Squircle.SQUIRCLE_35_BORDER, Color.valueOf("#bf0603"), Color.valueOf("#8d0801"), 22),
         ;
 
         private final String backgroundPath;
