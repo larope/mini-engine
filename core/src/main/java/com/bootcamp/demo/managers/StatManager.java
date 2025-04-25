@@ -1,12 +1,11 @@
 package com.bootcamp.demo.managers;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.bootcamp.demo.data.game.GearType;
-import com.bootcamp.demo.data.save.GearSaveData;
+import com.bootcamp.demo.data.game.gear.GearType;
+import com.bootcamp.demo.data.save.gear.GearSaveData;
 import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.Stat;
-import com.bootcamp.demo.data.save.StatEntry;
-import lombok.Getter;
+import com.bootcamp.demo.data.save.stats.Stat;
+import com.bootcamp.demo.data.save.stats.StatEntry;
 
 public class StatManager {
     private SaveData data;

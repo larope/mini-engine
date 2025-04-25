@@ -1,4 +1,4 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.data.save.stats;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -47,26 +47,8 @@ public class Stats implements Json.Serializable {
 
             value.setStat(stat);
             value.setValue(0);
-            value.setStatType(Stat.Type.ADDITIVE);
 
-            values.put(stat, value);
-        }
-    }
-
-    public void setRandoms(){
-        for (Stat stat : Stat.values()){
-            StatEntry value = new StatEntry();
-            Random rand = new Random();
-            value.setStat(stat);
             value.setStatType(stat.getDefaultType());
-
-            if(stat.getDefaultType() == Stat.Type.ADDITIVE) {
-                value.setValue(rand.nextInt(0, 8000));
-            }
-            else if(stat.getDefaultType() == Stat.Type.MULTIPLICATIVE) {
-                value.setValue(rand.nextFloat(0, 10));
-            }
-
 
             values.put(stat, value);
         }

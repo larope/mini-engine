@@ -1,6 +1,6 @@
 package com.bootcamp.demo.util;
 
-import com.bootcamp.demo.data.save.Stat;
+import com.bootcamp.demo.data.save.stats.Stat;
 
 public class NumberFormatter {
     public static String statToString(Stat stat){

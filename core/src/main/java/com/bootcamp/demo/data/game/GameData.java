@@ -2,6 +2,8 @@ package com.bootcamp.demo.data.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.XmlReader;
+import com.bootcamp.demo.data.game.gear.GearsGameData;
+import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import lombok.Getter;
 
 public class GameData {

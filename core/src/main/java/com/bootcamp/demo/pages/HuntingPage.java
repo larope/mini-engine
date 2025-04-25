@@ -1,22 +1,27 @@
 package com.bootcamp.demo.pages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.bootcamp.demo.data.game.GameData;
-import com.bootcamp.demo.data.game.GearType;
-import com.bootcamp.demo.data.game.GearsGameData;
-import com.bootcamp.demo.data.game.TacticalsGameData;
-import com.bootcamp.demo.data.save.*;
+import com.bootcamp.demo.data.game.*;
+import com.bootcamp.demo.data.game.gear.GearGameData;
+import com.bootcamp.demo.data.game.gear.GearType;
+import com.bootcamp.demo.data.game.gear.GearsGameData;
+import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
+import com.bootcamp.demo.data.save.SaveData;
+import com.bootcamp.demo.data.save.stats.Stat;
+import com.bootcamp.demo.data.save.gear.GearSaveData;
+import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
 import com.bootcamp.demo.dialogs.TestDialog;
 import com.bootcamp.demo.dialogs.core.DialogManager;
 import com.bootcamp.demo.engine.Labels;
+import com.bootcamp.demo.engine.Resources;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
@@ -27,6 +32,7 @@ import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
+import lombok.Setter;
 
 public class HuntingPage extends APage {
     static final int defaultRectSize = 225;
@@ -182,12 +188,12 @@ public class HuntingPage extends APage {
         public void setData (){}
     }
     private static class AccessoriesWidget extends Table {
-        private GearWidget gearWidget;
+        private GearsWidget gearWidget;
         private SecondaryGearWidget tacticalsWidget;
 
 
         public void setData(ObjectMap<GearType, GearSaveData> gears, IntMap<TacticalSaveData> tacticals){
-            gearWidget = new GearWidget();
+            gearWidget = new GearsWidget();
             gearWidget.setData(gears);
 
             tacticalsWidget = new SecondaryGearWidget();
@@ -201,7 +207,7 @@ public class HuntingPage extends APage {
         }
     }
 
-    private static class GearWidget extends Table{
+    private static class GearsWidget extends Table{
         private static final int gearCount = 6;
         private ObjectMap<GearType, GearSaveData> gears;
         private SetIndicatorSegment indicator;
@@ -229,31 +235,153 @@ public class HuntingPage extends APage {
             final WidgetsContainer<Table> gearContainer = new WidgetsContainer<>(3);
             gearContainer.defaults().size(defaultRectSize)
                 .space(20);
-            for (ObjectMap.Entry<GearType, GearSaveData> gear : gears) {
-                final BorderedTable item = constructGearCell(gear.value);
-                gearContainer.add(item);
+
+            for (GearType type : GearType.values()) {
+                GearSaveData gear = gears.get(type);
+                final GearCell item = new GearCell();
+                item.setData(gear);
+
+                gearContainer.add(item.construct());
             }
 
             return gearContainer;
         }
-        private static BorderedTable constructGearCell(GearSaveData gear) {
-            GearsGameData gearsGameData = API.get(GameData.class).getGearsGameData();
 
-            final Table icon = new Table();
-            icon.background(gearsGameData.getGears().get(gear.getSkin()).getDrawable());
-
-            final BorderedTable item = new BorderedTable(
-                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
-                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
-            );
-
-            item.pad(20).add(icon).grow();
-            return item;
-        }
         private boolean gearsAvailable() {
             return gears != null && gears.size == gearCount;
         }
     }
+
+    private static class GearCell extends BorderedTable{
+        GearSaveData data;
+        GearsGameData gameData;
+
+        final StarsSegment starsSegment = new StarsSegment();
+
+        public GearCell(){
+            gameData = API.get(GameData.class).getGearsGameData();
+        }
+
+        public Table construct(){
+            pad(30);
+
+            final Table icon = new Table();
+            ObjectMap<String, GearGameData> gearSkins = gameData.getGears().get(data.getType());
+            icon.background(gearSkins.get(data.getSkin()).getDrawable());
+
+            add(icon).grow();
+            addActor(constructStatsOverlay());
+            return this;
+        }
+
+        public void setData(GearSaveData data){
+            this.data = data;
+
+            background(Squircle.SQUIRCLE_35.getDrawable(data.getRarity().getBackgroundColor()));
+            setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(data.getRarity().getBorderColor()));
+        }
+
+        private Table constructStatsOverlay(){
+            final Table overlay = new Table();
+            overlay.setFillParent(true);
+
+            overlay.addActor(constructLevelOverlay());
+            overlay.addActor(constructStarOverlay());
+
+            return overlay;
+        }
+
+        private Table constructLevelOverlay(){
+            Label levelLabel = Labels.make(GameFont.BOLD_22, Color.WHITE, "Lv. " + data.getLevel());
+
+            Table levelOverlay = new Table();
+
+            levelOverlay.add(levelLabel).expand().bottom().left();
+            levelOverlay.setFillParent(true);
+            levelOverlay.pad(20);
+
+            return levelOverlay;
+        }
+
+        private Table constructStarOverlay(){
+            starsSegment.defaults().space(5);
+            starsSegment.setData(4);
+            starsSegment.enableStars(data.getStarCount());
+
+            Table starOverlay = new Table();
+
+            starOverlay.setFillParent(true);
+            starOverlay.add(starsSegment).expand().top().left();
+            starOverlay.pad(20);
+
+            return starOverlay;
+        }
+    }
+    private static class TacticalsCell extends BorderedTable{
+        TacticalSaveData data;
+        TacticalsGameData gameData;
+
+        final StarsSegment starsSegment = new StarsSegment();
+
+        public TacticalsCell(){
+            gameData = API.get(GameData.class).getTacticalsGameData();
+        }
+
+        public Table construct(){
+            final Table tacticalIcon = new Table();
+            tacticalIcon.setBackground(gameData.getTacticals().get(data.getName()).getDrawable());
+
+            add(tacticalIcon).growY();
+            pad(10).setTouchable(Touchable.disabled);
+            return this;
+        }
+
+        public void setData(TacticalSaveData data){
+            this.data = data;
+
+            background(Squircle.SQUIRCLE_35.getDrawable(data.getRarity().getBackgroundColor()));
+            setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(data.getRarity().getBorderColor()));
+        }
+    }
+    private static class StarsSegment extends Table{
+        private int maxStarCount;
+        private Array<Table> stars = new Array<>();
+
+        private static Table createStar() {
+            Image star = new Image(Resources.getDrawable("ui/star"));
+            Table statsWrapper = new Table();
+
+            statsWrapper.add(star).size(40);
+            return statsWrapper;
+        }
+
+        public void setData(int maxStarCount){
+            this.maxStarCount = maxStarCount;
+        }
+        public void enableStars(int count){
+            matchStarCount();
+            disableAll();
+
+            for (int i = 0; i < count; i++) {
+                stars.get(i).setVisible(true);
+            }
+        }
+        private void matchStarCount(){
+            if(maxStarCount > stars.size){
+                for (int i = stars.size; i < maxStarCount; i++) {
+                    Table star = createStar();
+                    add(star);
+                    stars.add(star);
+                }
+            }
+        }
+        private void disableAll(){
+            for (int i = 0; i < maxStarCount; i++) {
+                stars.get(i).setVisible(false);
+            }
+        }
+    }
+
     private static class SetIndicatorSegment extends Table{
         public Table construct(){
             background(Squircle.SQUIRCLE_15.getDrawable(Color.valueOf("#A29890")));
@@ -336,27 +464,15 @@ public class HuntingPage extends APage {
             tacticalsContainer.defaults().space(10).grow().uniform();
 
             for (IntMap.Entry<TacticalSaveData> tactical : tacticals) {
-                Table item = constructTactical(tactical.value);
-                tacticalsContainer.add(item);
+                TacticalsCell item = new TacticalsCell();
+                item.setData(tactical.value);
+                tacticalsContainer.add(item.construct());
             }
 
             add(tacticalsContainer);
             return this;
         }
 
-        private Table constructTactical(TacticalSaveData tactical){
-            TacticalsGameData tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
-            final Table tacticalIcon = new Table();
-            tacticalIcon.setBackground(tacticalsGameData.getTacticals().get(tactical.getName()).getDrawable());
-
-            final BorderedTable item = new BorderedTable(
-                Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#B19985")),
-                Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#7F7268"))
-            );
-            item.add(tacticalIcon).growY();
-            item.pad(10).setTouchable(Touchable.disabled);
-            return item;
-        }
         private boolean tacticalsAvailable(){
             return tacticals != null && tacticals.size==tacticalCount;
         }

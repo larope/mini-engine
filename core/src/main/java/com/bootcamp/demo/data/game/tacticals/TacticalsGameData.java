@@ -1,8 +1,9 @@
-package com.bootcamp.demo.data.game;
+package com.bootcamp.demo.data.game.tacticals;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
+import com.bootcamp.demo.data.game.IGameData;
 import lombok.Getter;
 
 public class TacticalsGameData implements IGameData {

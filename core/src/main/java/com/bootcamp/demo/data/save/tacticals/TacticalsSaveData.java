@@ -1,10 +1,10 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.data.save.tacticals;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.bootcamp.demo.data.game.GameData;
-import com.bootcamp.demo.data.game.TacticalGameData;
+import com.bootcamp.demo.data.save.RandomData;
 import com.bootcamp.demo.managers.API;
 
 public class TacticalsSaveData implements Json.Serializable {
@@ -45,11 +45,8 @@ public class TacticalsSaveData implements Json.Serializable {
     public void setDefaults(){
         for (int i = 0; i < tacticalsCount; i++) {
             if(tacticals.containsKey(i)) continue;
-            TacticalSaveData defaultTactical = new TacticalSaveData();
-            defaultTactical.setLevel(0);
-            defaultTactical.setName("dynamite");
-            defaultTactical.setCount(0);
-            defaultTactical.getStats();
+            TacticalSaveData defaultTactical = API.get(RandomData.class).getRandomTactical(3, 8, 1, 3, 3, 7);
+            defaultTactical.setStats(API.get(RandomData.class).getRandomStats(new Vector2(20, 500), new Vector2(0,1)));
             tacticals.put(i, defaultTactical);
         }
     }

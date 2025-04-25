@@ -1,4 +1,4 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.data.save.stats;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;

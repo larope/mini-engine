@@ -1,4 +1,4 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.data.save.stats;
 
 import lombok.Getter;
 

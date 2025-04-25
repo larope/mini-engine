@@ -1,9 +1,9 @@
 package com.bootcamp.demo.data.save;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.bootcamp.demo.data.game.GearType;
-import com.bootcamp.demo.util.NumberFormatter;
+import com.bootcamp.demo.data.save.stats.Stat;
+import com.bootcamp.demo.data.save.gear.GearsSaveData;
+import com.bootcamp.demo.data.save.tacticals.TacticalsSaveData;
 import lombok.Getter;
 
 public class SaveData {

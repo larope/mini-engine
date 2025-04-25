@@ -645,6 +645,13 @@ ui/shovel-icon
   orig: 210, 224
   offset: 0, 0
   index: -1
+ui/star
+  rotate: false
+  xy: 631, 441
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 ui/thread
   rotate: false
   xy: 1253, 345

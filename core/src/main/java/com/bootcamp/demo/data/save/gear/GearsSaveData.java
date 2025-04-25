@@ -1,10 +1,12 @@
-package com.bootcamp.demo.data.save;
+package com.bootcamp.demo.data.save.gear;
 
-import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.bootcamp.demo.data.game.GearType;
+import com.bootcamp.demo.data.game.gear.GearType;
+import com.bootcamp.demo.data.save.RandomData;
+import com.bootcamp.demo.managers.API;
 
 public class GearsSaveData implements Json.Serializable {
     private final static int gearsCount = 6;
@@ -45,14 +47,8 @@ public class GearsSaveData implements Json.Serializable {
                 continue;
             }
 
-            GearSaveData defaultGear = new GearSaveData();
-            defaultGear.setLevel(0);
-            defaultGear.setType(type);
-            defaultGear.setSkin("BootsOfPhallus");
-            defaultGear.setDefaults();
-
-            defaultGear.getStats().setRandoms();
-
+            GearSaveData defaultGear = API.get(RandomData.class).getRandomGear(type, 0, 20, 1, 4);
+            defaultGear.setStats(API.get(RandomData.class).getRandomStats(new Vector2(200, 500), new Vector2(0, 1.5f)));
             gears.put(type, defaultGear);
         }
     }
