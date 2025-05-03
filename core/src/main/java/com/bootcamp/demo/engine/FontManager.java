@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.bootcamp.demo.localization.GameFont;
+import com.bootcamp.demo.util.serviceLocator.Service;
+import com.bootcamp.demo.util.serviceLocator.ServiceLocator;
 
-public class FontManager {
+public class FontManager implements Disposable, Service {
 
     private final ObjectMap<String, BitmapFont> fontCache = new ObjectMap<>();
     private final ObjectMap<String, Label.LabelStyle> labelStyleCache = new ObjectMap<>();
@@ -65,5 +68,15 @@ public class FontManager {
         BitmapFont bitmapFont = generator.generateFont(parameter);
         generator.dispose();
         return bitmapFont;
+    }
+
+    @Override
+    public void register() {
+        ServiceLocator.register(FontManager.class, this);
+    }
+
+    @Override
+    public void unregister() {
+        ServiceLocator.unregister(FontManager.class);
     }
 }

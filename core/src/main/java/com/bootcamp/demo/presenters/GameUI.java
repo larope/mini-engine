@@ -1,20 +1,21 @@
 package com.bootcamp.demo.presenters;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.bootcamp.demo.engine.FontManager;
 import com.bootcamp.demo.events.core.EventListener;
 import com.bootcamp.demo.events.core.EventModule;
+import com.bootcamp.demo.localization.GameFont;
+import com.bootcamp.demo.mDialogs.core.mDialogManager;
 import com.bootcamp.demo.managers.API;
-import com.bootcamp.demo.pages.MissionsPage;
-import com.bootcamp.demo.pages.TestPage;
+import com.bootcamp.demo.pages.HuntingPage;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.pages.core.PageManager;
+import com.bootcamp.demo.util.services.ImageFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,18 +45,14 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
         // construct
         mainPageCell = rootUI.add().grow();
 
-<<<<<<< Updated upstream
-        API.get(PageManager.class).show(TestPage.class);
-=======
         API.get(PageManager.class).show(HuntingPage.class);
->>>>>>> Stashed changes
+  
     }
 
     @Override
     public void render (float delta) {
         stage.act(delta);
         stage.draw();
-<<<<<<< Updated upstream
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             API.get(PageManager.class).show(TestPage.class);
@@ -63,8 +60,6 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             API.get(PageManager.class).show(MissionsPage.class);
         }
-=======
->>>>>>> Stashed changes
     }
 
     @Override

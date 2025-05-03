@@ -6,12 +6,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.*;
 import com.bootcamp.demo.data.game.GameData;
+import com.bootcamp.demo.mDialogs.core.mDialogManager;
+import com.bootcamp.demo.managers.RandomData;
 import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.TacticalSaveData;
-import com.bootcamp.demo.data.save.TacticalsSaveData;
 import com.bootcamp.demo.events.GameStartedEvent;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.events.core.EventModule;
+import com.bootcamp.demo.managers.StatManager;
 
 public class DemoGame extends Game {
 
@@ -21,16 +22,16 @@ public class DemoGame extends Game {
 
         final GameData gameData = new GameData();
         API.Instance().register(GameData.class, gameData);
+        final StatManager statManager = new StatManager();
+        API.Instance().register(StatManager.class, statManager);
+        final RandomData randomData = new RandomData();
+        API.Instance().register(RandomData.class, randomData);
+
+
         gameData.load();
 
         loadSaveData();
 
-        final TacticalSaveData tacticalsSaveData = new TacticalSaveData();
-        tacticalsSaveData.setName("present");
-        tacticalsSaveData.setLevel(3);
-
-        API.get(SaveData.class).getTacticalsSaveData().getTacticals().put(0, tacticalsSaveData);
-        savePlayerData();
 
         setScreen(new GameScreen());
         API.get(EventModule.class).fireEvent(GameStartedEvent.class);
@@ -38,7 +39,8 @@ public class DemoGame extends Game {
 
     private void loadSaveData () {
         final FileHandle file = getPlayerDataFileHandler();
-        if (file.exists()) {
+
+        if (!file.exists() || file.length() < 10) {
             createNewSaveData();
             return;
         }
@@ -71,17 +73,17 @@ public class DemoGame extends Game {
     }
 
     private FileHandle getPlayerDataFileHandler () {
-        final FileHandle playerDataFile = Gdx.files.local("usercache").child("player-data");
+        final FileHandle playerDataFile = Gdx.files.local("usercache").child("player-data.json");
         // check if file exists; if not, create an empty file
-        if (!playerDataFile.exists()) {
-            playerDataFile.writeString("", false);
-        }
+
+
         return playerDataFile;
     }
 
     @Override
     public void dispose () {
         super.dispose();
+
         API.Instance().dispose();
         Gdx.app.exit();
     }

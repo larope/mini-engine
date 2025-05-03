@@ -1,3 +1,7 @@
 <root>
-    <tactical name="present" icon="ui/ui-chat-gift-button-icon"/>
+    <tactical name="shuriken" icon="ui/ui-chat-gift-button-icon"/>
+    <tactical name="night-vision-glasses" icon="ui/black-voucher" />
+    <tactical name="compass" icon="ui/thread" />
+    <tactical name="dynamite" icon="ui/green-voucher" />
+    <tactical name="tzbex" icon="ui/coin-pack-icon" />
 </root>

@@ -33,7 +33,6 @@ public class StatManager {
     }
 
     private void recalculate() {
-        if (data == null) return; // TODO: fix
         for (Stat stat : Stat.values()) {
             additiveStats.put(stat, 1f);
             multiplicativeStats.put(stat, 100f);
@@ -83,9 +82,9 @@ public class StatManager {
     public int getPower(){
         int power = 0;
 
-//        for (ObjectMap.Entry<Stat, Float> stat : getAllStatsCombined()) {
-//            power += stat.value;
-//        }
+        for (ObjectMap.Entry<Stat, Float> stat : getAllStatsCombined()) {
+            power += stat.value;
+        }
 
         return power;
     }

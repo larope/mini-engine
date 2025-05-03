@@ -1,0 +1,4 @@
+<root>
+    <flag name="ZaOrdu" icon="ui/mission-chest-green"/>
+    <flag name="ZaAlyans" icon="ui/mission-chest-red"/>
+</root>

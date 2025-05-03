@@ -1,8 +1,9 @@
-package com.bootcamp.demo.data.game;
+package com.bootcamp.demo.data.game.tacticals;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
+import com.bootcamp.demo.data.game.IGameData;
 import lombok.Getter;
 
 public class TacticalsGameData implements IGameData {
@@ -13,7 +14,9 @@ public class TacticalsGameData implements IGameData {
     @Override
     public void load (XmlReader.Element rootXml) {
         tacticals.clear();
+
         final Array<XmlReader.Element> tacticalsXml = rootXml.getChildrenByName("tactical");
+
         for (XmlReader.Element tacticalXml : tacticalsXml) {
             final TacticalGameData tacticalGameData = new TacticalGameData();
             tacticalGameData.load(tacticalXml);

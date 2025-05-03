@@ -1,0 +1,10 @@
+<root>
+    <gear type="boots" name="BootsOfPhallus" icon="ui/ui-coin-chest"/>
+    <gear type="boots" name="TheMatovTapochka" icon="ui/rush-currency"/>
+    <gear type="boots" name="HermesGovnames" icon="ui/ui-spinner-chest-icon"/>
+    <gear type="melee" name="Dubinka" icon="ui/pet-bone"/>
+    <gear type="hat" name="RegularHat" icon="ui/thread"/>
+    <gear type="gloves" name="PerchatkaBeskanechnosti" icon="ui/pet-voucher"/>
+    <gear type="gun" name="Ak47" icon="ui/mission-chest-red"/>
+    <gear type="shirt" name="Vest" icon="ui/green-voucher"/>
+</root>

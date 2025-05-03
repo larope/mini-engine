@@ -4,14 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.bootcamp.demo.data.game.GameData;
-import com.bootcamp.demo.data.game.TacticalGameData;
-import com.bootcamp.demo.data.game.TacticalsGameData;
+import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import com.bootcamp.demo.data.save.SaveData;
-import com.bootcamp.demo.data.save.TacticalSaveData;
-import com.bootcamp.demo.data.save.TacticalsSaveData;
+import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
+import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
 import com.bootcamp.demo.engine.Squircle;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.managers.API;
@@ -39,12 +37,12 @@ public class TestPage extends APage {
             }
         }
 
-        public void setData (TacticalsSaveData tacticalsSaveData) {
+        public void setData (EquippedTacticalsSaveData tacticalsSaveData) {
             final Array<TacticalContainer> widgets = getWidgets();
 
             for (int i = 0; i < widgets.size; i++) {
                 final TacticalContainer widget = widgets.get(i);
-                final TacticalSaveData tacticalSaveData = tacticalsSaveData.getTacticals().get(i);
+                final TacticalSaveData tacticalSaveData = tacticalsSaveData.getTacticalsAsData().get(i);
                 widget.setData(tacticalSaveData);
             }
         }
@@ -69,9 +67,7 @@ public class TestPage extends APage {
             }
 
             final TacticalsGameData tacticalsGameData = API.get(GameData.class).getTacticalsGameData();
-            final ObjectMap<String, TacticalGameData> tacticals = tacticalsGameData.getTacticals();
-            final TacticalGameData tacticalGameData = tacticals.get(tacticalSaveData.getName());
-            iconImage.setDrawable(tacticalGameData.getIcon());
+
         }
 
         private void setEmpty () {
@@ -82,6 +78,6 @@ public class TestPage extends APage {
     @Override
     public void show (Runnable onComplete) {
         super.show(onComplete);
-        tacticalsContainer.setData(API.get(SaveData.class).getTacticalsSaveData());
+        tacticalsContainer.setData(API.get(SaveData.class).getInventorySaveData().getEquippedTacticalsSaveData());
     }
 }
