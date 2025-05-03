@@ -30,6 +30,8 @@ import com.bootcamp.demo.dialogs.ItemStatsDialog;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
+import jdk.vm.ci.amd64.AMD64;
+import lombok.Getter;
 import lombok.Setter;
 
 public class HuntingPage extends APage {
@@ -197,19 +199,19 @@ public class HuntingPage extends APage {
         public void setData (){}
     }
     private static class AccessoriesWidget extends Table {
-        private GearsWidget gearWidget;
-        private SecondaryGearWidget tacticalsWidget;
+        private final GearsWidget gearWidget;
+        private final SecondaryGearWidget tacticalsWidget;
 
         public AccessoriesWidget(){
+            gearWidget = new GearsWidget();
+            tacticalsWidget = new SecondaryGearWidget();
+
             add(gearWidget).expandX().left();
-            add(tacticalsWidget.construct()).expandX();
+            add(tacticalsWidget).expandX();
         }
 
         public void setData(ObjectMap<GearType, GearSaveData> gears, IntMap<TacticalSaveData> tacticals){
-            gearWidget = new GearsWidget();
             gearWidget.setData(gears);
-
-            tacticalsWidget = new SecondaryGearWidget();
             tacticalsWidget.setData(tacticals);
         }
     }
@@ -222,7 +224,7 @@ public class HuntingPage extends APage {
         private final Image icon;
         private final StarsSegment starsSegment;
 
-        @Setter
+        @Setter @Getter
         private GearType type;
 
         public GearCell(){
@@ -393,9 +395,8 @@ public class HuntingPage extends APage {
     }
 
     private static class GearsWidget extends Table{
-        private static final int gearCount = 6;
         private final SetIndicatorSegment indicator;
-        private final WidgetsContainer<Table> gearContainer;
+        private final WidgetsContainer<GearCell> gearContainer;
 
         public GearsWidget(){
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7"))).pad(15,30,15,30);
@@ -413,8 +414,8 @@ public class HuntingPage extends APage {
                 return;
             }
 
-            for (Table widget : gearContainer.getWidgets()) {
-                widget.getClass()
+            for (GearCell widget : gearContainer.getWidgets()) {
+                widget.setData(gears.get(widget.getType()));
             }
 
             indicator.setData(false);
@@ -438,57 +439,47 @@ public class HuntingPage extends APage {
 
             return gearContainer;
         }
-
-        private boolean gearsAvailable() {
-            return gears != null && gears.size == gearCount;
-        }
     }
     private static class SecondaryGearWidget extends Table{
         private TacticalsWidget tacticalsWidget;
         private FlagWidget flagWidget;
         private PetWidget petWidget;
 
-        public void setData(IntMap<TacticalSaveData> tacticals){
+        public SecondaryGearWidget(){
             tacticalsWidget = new TacticalsWidget();
-            tacticalsWidget.setData(tacticals);
-
             flagWidget = new FlagWidget();
-            flagWidget.setData();
-
             petWidget = new PetWidget();
-            petWidget.setData();
-        }
-        public Table construct(){
+
             final Table tacticalsFlagContainer = new Table();
             tacticalsFlagContainer.defaults().space(25).size(defaultRectSize);
             tacticalsFlagContainer.add(tacticalsWidget);
             tacticalsFlagContainer.row();
-            tacticalsFlagContainer.add(flagWidget.construct());
+            tacticalsFlagContainer.add(flagWidget);
 
-            final Table segment = new Table();
-            segment.add(tacticalsFlagContainer).spaceRight(25);
-            segment.add(petWidget.construct()).growY().width(defaultRectSize);
-            return segment;
+            add(tacticalsFlagContainer).spaceRight(25);
+            add(petWidget).growY().width(defaultRectSize);
         }
 
+        public void setData(IntMap<TacticalSaveData> tacticals){
+            tacticalsWidget.setData(tacticals);
+            flagWidget.setData();
+            petWidget.setData();
+        }
     }
     private static class FlagWidget extends BorderedTable{
-        public void setData(){}
-        public Table construct(){
+        public FlagWidget(){
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")));
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E")));
-
-            return this;
         }
+
+        public void setData(){}
     }
     private static class PetWidget extends BorderedTable{
-        public void setData(){}
-        public Table construct(){
+        public PetWidget(){
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#C2B8AF")));
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(Color.valueOf("#84786E")));
-
-            return this;
         }
+        public void setData(){}
     }
     private static class TacticalsWidget extends PressableTable {
         private final WidgetsContainer<TacticalContainer> tacticalsContainer;
@@ -523,7 +514,6 @@ public class HuntingPage extends APage {
     }
 
     private static class HuntingButton extends OffsetButton {
-
         private final Image shovelIcon;
 
         public HuntingButton () {
