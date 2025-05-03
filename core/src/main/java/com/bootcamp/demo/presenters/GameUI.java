@@ -44,13 +44,18 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
         // construct
         mainPageCell = rootUI.add().grow();
 
+<<<<<<< Updated upstream
         API.get(PageManager.class).show(TestPage.class);
+=======
+        API.get(PageManager.class).show(HuntingPage.class);
+>>>>>>> Stashed changes
     }
 
     @Override
     public void render (float delta) {
         stage.act(delta);
         stage.draw();
+<<<<<<< Updated upstream
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             API.get(PageManager.class).show(TestPage.class);
@@ -58,6 +63,8 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             API.get(PageManager.class).show(MissionsPage.class);
         }
+=======
+>>>>>>> Stashed changes
     }
 
     @Override

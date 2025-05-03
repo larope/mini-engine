@@ -1,5 +1,6 @@
 package com.bootcamp.demo.managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -36,6 +37,9 @@ public class API implements Disposable {
         register(Localization.class);
         register(PageManager.class);
         register(DialogManager.class);
+        Gdx.app.postRunnable(() -> {
+            register(HuntingManager.class);
+        });
     }
 
     public <T> void register (Class<T> key, T object) {
