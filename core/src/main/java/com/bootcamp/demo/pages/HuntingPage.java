@@ -12,6 +12,7 @@ import com.bootcamp.demo.data.game.gear.GearType;
 import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
+import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.gears.GearSaveData;
 import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
@@ -28,6 +29,7 @@ import com.bootcamp.demo.engine.widgets.WidgetsContainer;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.dialogs.ItemStatsDialog;
 import com.bootcamp.demo.managers.API;
+import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
 import jdk.vm.ci.amd64.AMD64;
@@ -55,6 +57,29 @@ public class HuntingPage extends APage {
         content.add(powerWidget).expandX().height(100).width(600);
         content.row();
         content.add(mainUI).growX();
+
+        setData();
+    }
+
+    private void setData(){
+        StatManager statManager = API.get(StatManager.class);
+        SaveData saveData = API.get(SaveData.class);
+
+        powerWidget.setData(statManager.getPower());
+
+        ObjectMap<String, TacticalSaveData> tacticals = saveData.getTacticalsSaveSata().getTacticals();
+        Array<TacticalSaveData> onlyTacticals = tacticals.values().toArray();
+        IntMap<TacticalSaveData> tacticalsAsIntmap = new IntMap<>();
+
+        for (int i = 0; i < onlyTacticals.size; i++) {
+            tacticalsAsIntmap.put(i, onlyTacticals.get(i));
+        }
+
+        ObjectMap<GearType, GearSaveData> gears = saveData.getGearsSaveData().getGears();
+        accessoriesWidget.setData(gears, tacticalsAsIntmap);
+
+        buttonSegment.setData();
+        statsWidget.setData(statManager.getAllStatsCombined());
     }
 
     private Table constructMainUI () {
@@ -89,7 +114,7 @@ public class HuntingPage extends APage {
         }
 
         public void setData (int power){
-            powerLabel.setText(power);
+            powerLabel.setText(NumberFormatter.formatToShortForm(power));
         }
     }
     private static class StatContainer extends Table{
@@ -125,7 +150,6 @@ public class HuntingPage extends APage {
         private final WidgetsContainer<StatContainer> statsContainer;
 
         public StatsWidget(){
-            setEmpty();
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#AE9E91"))).pad(20);
 
             statsContainer = new WidgetsContainer<>(3);
@@ -142,6 +166,7 @@ public class HuntingPage extends APage {
 
             Table menuButton = constructMenuButton();
             add(menuButton).size(100).space(20);
+            setEmpty();
         }
 
         private Table constructMenuButton() {
@@ -228,8 +253,6 @@ public class HuntingPage extends APage {
         private GearType type;
 
         public GearCell(){
-            setEmpty();
-
             levelLabel = Labels.make(GameFont.BOLD_22, Color.WHITE);
 
             starsSegment = new StarsSegment();
@@ -250,12 +273,14 @@ public class HuntingPage extends APage {
 
                 dialogManager.show(ItemStatsDialog.class);
             });
+            setEmpty();
         }
 
         public void setData(GearSaveData data){
             this.data = data;
             if(data == null){
                 setEmpty();
+                return;
             }
 
             starsSegment.enableStars(data.getStarCount());
@@ -342,10 +367,8 @@ public class HuntingPage extends APage {
 
     private static class StarsSegment extends Table{
         private final Array<Table> stars;
-        private final Table starsWrapper;
         public StarsSegment(){
             stars = new Array<>();
-            starsWrapper = new Table();
         }
 
         public void enableStars(int count){
@@ -365,9 +388,9 @@ public class HuntingPage extends APage {
         }
         private Table addStar() {
             final Image star = new Image(Resources.getDrawable("ui/star"));
-
-            starsWrapper.add(star).size(40);
-            return starsWrapper;
+            final Table starWrapper = new Table();
+            starWrapper.add(star).size(40);
+            return starWrapper;
         }
         private void disableAll(){
             for (Table star : stars) {

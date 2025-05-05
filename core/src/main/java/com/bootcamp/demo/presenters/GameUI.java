@@ -1,18 +1,24 @@
 package com.bootcamp.demo.presenters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.engine.FontManager;
 import com.bootcamp.demo.events.core.EventListener;
 import com.bootcamp.demo.events.core.EventModule;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.mDialogs.core.mDialogManager;
 import com.bootcamp.demo.managers.API;
+import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.HuntingPage;
+import com.bootcamp.demo.pages.MissionsPage;
+import com.bootcamp.demo.pages.TestPage;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.pages.core.PageManager;
 import com.bootcamp.demo.util.services.ImageFactory;
@@ -45,8 +51,8 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
         // construct
         mainPageCell = rootUI.add().grow();
 
+        API.get(StatManager.class).setData(API.get(SaveData.class));
         API.get(PageManager.class).show(HuntingPage.class);
-  
     }
 
     @Override
