@@ -3,7 +3,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.bootcamp.demo.data.game.Rarity;
 import com.bootcamp.demo.data.game.gear.GearType;
+import com.bootcamp.demo.data.save.SaveData;
 import com.bootcamp.demo.data.save.stats.Stats;
+import com.bootcamp.demo.managers.API;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +29,10 @@ public class GearSaveData implements Json.Serializable {
     public void setSkin(GearSkinSaveData skin) {
         assert (skin.type == type) : "The expected type for skin is " + type.name() + " but received " + skin.type.name();
         this.skin = skin.name;
+    }
+
+    public GearSkinSaveData getSkinData(){
+        return API.get(SaveData.class).getGearSkins().getSkin(type, skin);
     }
 
     public Stats getStats(){

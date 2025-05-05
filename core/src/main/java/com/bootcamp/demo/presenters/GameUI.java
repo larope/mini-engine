@@ -13,7 +13,6 @@ import com.bootcamp.demo.engine.FontManager;
 import com.bootcamp.demo.events.core.EventListener;
 import com.bootcamp.demo.events.core.EventModule;
 import com.bootcamp.demo.localization.GameFont;
-import com.bootcamp.demo.mDialogs.core.mDialogManager;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.HuntingPage;
@@ -62,6 +61,9 @@ public class GameUI extends ScreenAdapter implements Disposable, EventListener {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             API.get(PageManager.class).show(TestPage.class);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+            API.get(PageManager.class).show(HuntingPage.class);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             API.get(PageManager.class).show(MissionsPage.class);

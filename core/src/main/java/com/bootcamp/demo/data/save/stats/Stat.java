@@ -9,7 +9,7 @@ public enum Stat {
     COMBO("COMBO:", Type.MULTIPLICATIVE, true),
     CRITICAL("CRIT:", Type.MULTIPLICATIVE, true),
     STUN("STUN:", Type.MULTIPLICATIVE, true),
-    REGENERATION("REGEN:", Type.ADDITIVE, false),
+    REGENERATION("REGEN:", Type.MULTIPLICATIVE, false),
     STEAL("STEAL:", Type.MULTIPLICATIVE, true),
     POISON("POISON:", Type.MULTIPLICATIVE, true),
     ;

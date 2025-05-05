@@ -2,14 +2,13 @@ package com.bootcamp.demo.pages;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.*;
 import com.bootcamp.demo.data.game.*;
-import com.bootcamp.demo.data.game.gear.GearGameData;
 import com.bootcamp.demo.data.game.gear.GearType;
-import com.bootcamp.demo.data.game.gear.GearsGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalGameData;
 import com.bootcamp.demo.data.game.tacticals.TacticalsGameData;
 import com.bootcamp.demo.data.save.SaveData;
@@ -17,7 +16,7 @@ import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.gears.GearSaveData;
 import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
 import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
-import com.bootcamp.demo.dialogs.TacticalsDialog;
+import com.bootcamp.demo.dialogs.TesticlesDialog;
 import com.bootcamp.demo.dialogs.core.DialogManager;
 import com.bootcamp.demo.engine.Labels;
 import com.bootcamp.demo.engine.Resources;
@@ -26,13 +25,14 @@ import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
 import com.bootcamp.demo.engine.widgets.PressableTable;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
+import com.bootcamp.demo.events.core.EventModule;
+import com.bootcamp.demo.events.example.LootedEvent;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.dialogs.ItemStatsDialog;
 import com.bootcamp.demo.managers.API;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
-import jdk.vm.ci.amd64.AMD64;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -242,24 +242,25 @@ public class HuntingPage extends APage {
     }
 
 
-    private static class GearCell extends BorderedTable{
+    public static class GearContainer extends BorderedTable{
         private GearSaveData data;
 
         private final Label levelLabel;
         private final Image icon;
+        @Getter
         private final StarsSegment starsSegment;
 
         @Setter @Getter
         private GearType type;
 
-        public GearCell(){
+        public GearContainer(){
             levelLabel = Labels.make(GameFont.BOLD_22, Color.WHITE);
 
             starsSegment = new StarsSegment();
 
             icon = new Image();
             pad(30);
-
+            icon.setScaling(Scaling.stretch);
             add(icon).grow();
             addActor(constructStatsOverlay());
 
@@ -288,9 +289,7 @@ public class HuntingPage extends APage {
             background(Squircle.SQUIRCLE_35.getDrawable(data.getRarity().getBackgroundColor()));
             setBorderDrawable(Squircle.SQUIRCLE_35_BORDER.getDrawable(data.getRarity().getBorderColor()));
 
-            final GearsGameData gameData = API.get(GameData.class).getGearsGameData();
-            ObjectMap<String, GearGameData> gearSkins = gameData.getGears().get(data.getType());
-            icon.setDrawable(gearSkins.get(data.getSkin()).getDrawable());
+            icon.setDrawable(data.getSkinData().getDrawable());
         }
 
         @Override
@@ -365,8 +364,17 @@ public class HuntingPage extends APage {
         }
     }
 
-    private static class StarsSegment extends Table{
-        private final Array<Table> stars;
+    public static class StarsSegment extends Table{
+        private float starSize = 40;
+        private final Array<Cell<Table>> stars;
+
+        public void setStarSize(float size){
+            starSize = size;
+            for (Cell<Table> star : stars) {
+                star.size(starSize);
+            }
+        }
+
         public StarsSegment(){
             stars = new Array<>();
         }
@@ -376,25 +384,26 @@ public class HuntingPage extends APage {
             disableAll();
 
             for (int i = 0; i < count; i++) {
-                stars.get(i).setVisible(true);
+                stars.get(i).getActor().setVisible(true);
             }
         }
         private void matchStarCount(int count){
             for (int i = stars.size; i < count; i++) {
                 final Table star = addStar();
-                add(star);
-                stars.add(star);
+                Cell<Table> starCell = add(star).size(starSize);
+                stars.add(starCell);
             }
         }
+
         private Table addStar() {
             final Image star = new Image(Resources.getDrawable("ui/star"));
             final Table starWrapper = new Table();
-            starWrapper.add(star).size(40);
+            starWrapper.add(star).grow();
             return starWrapper;
         }
         private void disableAll(){
-            for (Table star : stars) {
-                star.setVisible(false);
+            for (Cell<Table> star : stars) {
+                star.getActor().setVisible(false);
             }
         }
     }
@@ -419,7 +428,7 @@ public class HuntingPage extends APage {
 
     private static class GearsWidget extends Table{
         private final SetIndicatorSegment indicator;
-        private final WidgetsContainer<GearCell> gearContainer;
+        private final WidgetsContainer<GearContainer> gearContainer;
 
         public GearsWidget(){
             background(Squircle.SQUIRCLE_35.getDrawable(Color.valueOf("#CAC9C7"))).pad(15,30,15,30);
@@ -437,7 +446,7 @@ public class HuntingPage extends APage {
                 return;
             }
 
-            for (GearCell widget : gearContainer.getWidgets()) {
+            for (GearContainer widget : gearContainer.getWidgets()) {
                 widget.setData(gears.get(widget.getType()));
             }
 
@@ -453,7 +462,7 @@ public class HuntingPage extends APage {
                 .space(20);
 
             for (GearType type : GearType.values()) {
-                final GearCell item = new GearCell();
+                final GearContainer item = new GearContainer();
                 item.setData(null);
                 item.setType(type);
 
@@ -521,8 +530,8 @@ public class HuntingPage extends APage {
 
             setOnClick(() -> {
                 final DialogManager dialogManager = API.get(DialogManager.class);
-                dialogManager.getDialog(TacticalsDialog.class).setData();
-                dialogManager.show(TacticalsDialog.class);
+                dialogManager.getDialog(TesticlesDialog.class).setData();
+                dialogManager.show(TesticlesDialog.class);
             });
         }
 
@@ -544,9 +553,8 @@ public class HuntingPage extends APage {
             build(OffsetButton.Style.GREEN_35);
 
             setOnClick(() -> {
-//                final EventModule eventModule = API.get(EventModule.class);
-//                final LootedEvent event = eventModule.obtainEvent(LootedEvent.class);
-//                eventModule.fireEvent(event);
+                // TODO change this to event system
+                
             });
         }
 

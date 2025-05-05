@@ -35,6 +35,23 @@ public class Stats implements Json.Serializable {
         }
     }
 
+    public int getPower(){
+        float power = 1;
+        float multiplicativeSum = 1;
+
+        for (ObjectMap.Entry<Stat, StatEntry> entry : values) {
+            if(entry.value.statType == Stat.Type.MULTIPLICATIVE){
+                multiplicativeSum += entry.value.getValue();
+            }
+            else if(entry.value.statType == Stat.Type.ADDITIVE){
+                power += entry.value.getValue();
+            }
+        }
+        power *= multiplicativeSum;
+
+        return (int) power;
+    }
+
     public Stats plus(Stats other){
         for (ObjectMap.Entry<Stat, StatEntry> stat : values) {
             stat.value.setValue(stat.value.getValue() + other.values.get(stat.key).getValue());
