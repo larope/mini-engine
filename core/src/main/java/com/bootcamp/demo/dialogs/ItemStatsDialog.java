@@ -24,8 +24,7 @@ import lombok.Setter;
 import sun.tools.jconsole.Tab;
 
 public class ItemStatsDialog extends ADialog {
-    private StatsWidget statsWidget;
-    private SkinStatsWidget skinStatsWidget;
+    protected StatsWidget statsWidget;
 
     @Override
     protected Drawable getDialogBackground () {
@@ -42,10 +41,7 @@ public class ItemStatsDialog extends ADialog {
         getDialogBackground();
 
         statsWidget = new StatsWidget();
-        skinStatsWidget = new SkinStatsWidget();
         content.add(statsWidget).grow();
-        row();
-        content.add(skinStatsWidget).grow();
     }
     @Override
     protected void constructDialog(Table dialog){
@@ -66,11 +62,11 @@ public class ItemStatsDialog extends ADialog {
     public void setData(GearSaveData data){
         setTitle(data.getSkin());
         statsWidget.setData(data);
-        skinStatsWidget.setData(data.getSkinData());
     }
 
-    private static class StatsWidget extends Table{
+    public static class StatsWidget extends Table{
         private final HuntingPage.GearContainer gearContainer;
+        @Getter
         private final Label power;
         private final Label rarity;
         private final Label type;
@@ -129,22 +125,6 @@ public class ItemStatsDialog extends ADialog {
 
             ObjectMap<Stat, StatEntry> stats = data.getStats().getValues();
 
-        }
-
-        private void setEmpty(){
-
-        }
-    }
-    private static class SkinStatsWidget extends Table{
-        public SkinStatsWidget(){
-
-        }
-
-        public void setData(GearSkinSaveData data){
-            if(data == null){
-                setEmpty();
-                return;
-            }
         }
 
         private void setEmpty(){

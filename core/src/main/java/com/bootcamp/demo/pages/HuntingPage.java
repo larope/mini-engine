@@ -1,6 +1,7 @@
 package com.bootcamp.demo.pages;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -16,6 +17,7 @@ import com.bootcamp.demo.data.save.stats.Stat;
 import com.bootcamp.demo.data.save.gears.GearSaveData;
 import com.bootcamp.demo.data.save.tacticals.EquippedTacticalsSaveData;
 import com.bootcamp.demo.data.save.tacticals.TacticalSaveData;
+import com.bootcamp.demo.dialogs.LootItemDialog;
 import com.bootcamp.demo.dialogs.TesticlesDialog;
 import com.bootcamp.demo.dialogs.core.DialogManager;
 import com.bootcamp.demo.engine.Labels;
@@ -25,24 +27,36 @@ import com.bootcamp.demo.engine.widgets.BorderedTable;
 import com.bootcamp.demo.engine.widgets.OffsetButton;
 import com.bootcamp.demo.engine.widgets.PressableTable;
 import com.bootcamp.demo.engine.widgets.WidgetsContainer;
+import com.bootcamp.demo.events.core.EventHandler;
+import com.bootcamp.demo.events.core.EventListener;
 import com.bootcamp.demo.events.core.EventModule;
 import com.bootcamp.demo.events.example.LootedEvent;
 import com.bootcamp.demo.localization.GameFont;
 import com.bootcamp.demo.dialogs.ItemStatsDialog;
 import com.bootcamp.demo.managers.API;
+import com.bootcamp.demo.managers.RandomData;
 import com.bootcamp.demo.managers.StatManager;
 import com.bootcamp.demo.pages.core.APage;
 import com.bootcamp.demo.util.NumberFormatter;
 import lombok.Getter;
 import lombok.Setter;
 
-public class HuntingPage extends APage {
+public class HuntingPage extends APage implements EventListener {
     static final int defaultRectSize = 225;
 
     private StatsWidget statsWidget;
     private AccessoriesWidget accessoriesWidget;
     private ButtonSegment buttonSegment;
     private PowerWidget powerWidget;
+
+    public HuntingPage(){
+        API.get(EventModule.class).registerListener(this);
+    }
+
+    @EventHandler
+    public void onLootedEvent (LootedEvent event) {
+        setData();
+    }
 
     @Override
     protected void constructContent(Table content) {
@@ -51,7 +65,6 @@ public class HuntingPage extends APage {
         final Table topUI = new Table();
         final Table mainUI = constructMainUI();
 
-        // assemble
         content.add(topUI).grow();
         content.row();
         content.add(powerWidget).expandX().height(100).width(600);
@@ -549,19 +562,33 @@ public class HuntingPage extends APage {
         private final Image shovelIcon;
 
         public HuntingButton () {
-            shovelIcon = new Image(Resources.getDrawable("ui/ad-ticket-icon"), Scaling.fit);
+            shovelIcon = new Image(Resources.getDrawable("ui/shovelico"), Scaling.fit);
             build(OffsetButton.Style.GREEN_35);
 
             setOnClick(() -> {
                 // TODO change this to event system
-                
+                RandomData randomData = API.get(RandomData.class);
+                GearType type = randomData.getRandomGearType();
+                GearSaveData randomGear = randomData.getRandomGear(type, 0, 20, 1, 4);
+                randomGear.setStats(randomData.getRandomStats(new Vector2(200, 500), new Vector2(0, 1.5f)));
+
+
+                DialogManager dialogManager = API.get(DialogManager.class);
+
+                LootItemDialog lootDialog = dialogManager.getDialog(LootItemDialog.class);
+                lootDialog.setData(randomGear);
+
+                dialogManager.show(LootItemDialog.class);
             });
+
         }
 
         @Override
         protected void buildInner(Table container) {
             super.buildInner(container);
-            container.add(shovelIcon).size(80);
+            final Label lootText = Labels.make(GameFont.BOLD_32, Color.WHITE, "LOOT");
+            container.add(lootText).spaceRight(10);
+            container.add(shovelIcon).size(120);
         }
     }
 }

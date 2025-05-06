@@ -72,6 +72,9 @@ public class RandomData {
         return stat;
     }
 
+    public GearType getRandomGearType(){
+        return GearType.values()[random.nextInt(GearType.values().length)];
+    }
     public GearSaveData getRandomGear(GearType type, int minLevel, int maxLevel, int minStar, int maxStar) {
         GearSaveData data = new GearSaveData();
 
